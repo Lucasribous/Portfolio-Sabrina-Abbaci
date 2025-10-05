@@ -30,12 +30,12 @@ body {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-attachment: scroll;
+  background-attachment: scroll; /* changed from fixed -> scroll */
 }
 
 @media (min-width: 1024px) {
   body {
-    background-attachment: fixed;
+    background-attachment: scroll; /* ensure not fixed on large screens */
   }
 }
 
