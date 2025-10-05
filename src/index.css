@@ -4,12 +4,13 @@
 
 /* ========== Variables globales ========== */
 :root {
-  --accent: #f19fd3;         /* couleur rose demandée */
-  --text: var(--accent);     /* tout le texte sera rose */
-  --decor-scale: 0.1rem;       /* réduction des images décoratives (0.33 = 1/3) */
-  --header-scale: 0.75;      /* header réduit de 25% par défaut */
-  --gap-header-top: 0.75rem; /* espace entre haut page et header */
-  --gap-header-bottom: 1rem; /* espace entre header et marquee */
+  --accent: #f19fd3;
+  --text: var(--accent);
+  --decor-scale: 0.1rem;
+  --header-scale: 0.75;
+  --carousel-scale: 0.5; /* <-- nouvelle variable par défaut */
+  --gap-header-top: 0.75rem;
+  --gap-header-bottom: 1rem;
 }
 
 /* ========== Reset / layout ========== */
@@ -42,7 +43,7 @@ body {
 /* wrapper to set CSS variables easily */
 .page-wrapper {
   position: relative;
-  min-height: 100vh;
+  min-height: auto; /* changed from 100vh -> évite forcer la page à occuper toute la fenêtre */
   overflow-x: hidden;
 }
 
@@ -97,10 +98,11 @@ body {
 
 /* Give default sizes derived from variables (used inline if needed) */
 .carousel-img {
+  display: block;
   width: 100%;
-  height: calc(70vw * var(--carousel-scale));
-  max-height: calc(24rem * var(--carousel-scale));
-  object-fit: cover;
+  height: 100%;        /* rempli le container dont la hauteur est calculée JS */
+  object-fit: cover;   /* crop propre si l'image est plus grande */
+  max-height: none;    /* override possibles */
 }
 
 /* Decorative img sizes derived from variable */
@@ -109,11 +111,13 @@ body {
   height: auto;
 }
 
-/* header sizing using the variable (we apply on the image) */
+/* header sizing (léger ajustement si nécessaire) */
 .header-img {
+  display: block;
   width: calc(80vw * var(--header-scale));
   max-width: calc(40rem * var(--header-scale));
   height: auto;
+  max-height: calc(40vh * var(--header-scale)); /* réduit un peu la hauteur max */
   object-fit: contain;
 }
 

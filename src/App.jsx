@@ -13,10 +13,11 @@ export default function App() {
 
   // You can change these values to tune layout globally
   const cssVars = {
-    "--decor-scale": "0.1rem",      // 0.33 => decor images much smaller; change to 0.66 if you meant 2/3 size
-    "--header-scale": "0.75",     // 0.75 => header reduced by 25%
-    "--gap-header-top": "1rem",
-    "--gap-header-bottom": "0.75rem",
+    "--decor-scale": "0.1rem",
+    "--header-scale": "0.75",
+    "--carousel-scale": "0.5", // <-- ajouté pour cohérence
+    "--gap-header-top": "0.75rem",
+    "--gap-header-bottom": "1rem",
   };
 
   return (
