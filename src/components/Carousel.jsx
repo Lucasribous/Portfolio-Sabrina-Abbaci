@@ -1,197 +1,96 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 
-export default function Carousel({
-  images = [],
-  dotSize = "0.75rem",
-  dotGap = "0.75rem",
-}) {
-  const [active, setActive] = useState(0);
-  const wrapperRef = useRef(null);
-  const trackRef = useRef(null);
-  const [heightPx, setHeightPx] = useState(null);
-  const [ratio, setRatio] = useState(null); // height / width
+/**
+ * Carousel.jsx
+ * - Pas d'autoplay (contrôle manuel uniquement)
+ * - Pastilles rondes, accessibles et indiquant l'image active
+ * - Images responsives via <picture> (attend fichiers -320/ -640 / -1024 / -1600)
+ */
 
-  // compute ratio from first image
-  useEffect(() => {
-    const firstSrc = images?.[0]?.base ? `${images[0].base}-640.webp` : null;
-    if (!firstSrc) return;
+export default function Carousel({ images = [], dotSize = "0.8rem", dotGap = "0.9rem" }) {
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-    const img = new Image();
-    img.src = firstSrc;
-    const setImgRatio = () => {
-      if (img.naturalWidth && img.naturalHeight) {
-        setRatio(img.naturalHeight / img.naturalWidth);
-      }
-    };
-    if (img.complete) setImgRatio();
-    else img.onload = setImgRatio;
-    return () => { img.onload = null; };
-  }, [images]);
+  if (!images || images.length === 0) {
+    return null;
+  }
 
-  // update height based on wrapper width and ratio
-  useEffect(() => {
-    const wrapper = wrapperRef.current;
-    if (!wrapper || ratio == null) return;
-    const update = () => {
-      const w = wrapper.offsetWidth || 0;
-      setHeightPx(Math.round(w * ratio));
-    };
-    update();
-    const ro = new ResizeObserver(update);
-    ro.observe(wrapper);
-    window.addEventListener("resize", update);
-    return () => { ro.disconnect(); window.removeEventListener("resize", update); };
-  }, [ratio]);
+  const goToNext = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+  };
 
-  // swipe / drag for desktop & touch
-  useEffect(() => {
-    const track = trackRef.current;
-    const wrapper = wrapperRef.current;
-    if (!track || !wrapper) return;
-
-    let pointerId = null;
-    let startX = 0;
-    let currentX = 0;
-    let dragging = false;
-    let animFrame = null;
-
-    const width = () => wrapper.offsetWidth || 1;
-    const setTranslate = (tx) => {
-      track.style.transform = `translateX(${tx}px)`;
-    };
-
-    const render = () => {
-      const tx = -active * width() + (dragging ? currentX - startX : 0);
-      setTranslate(tx);
-      animFrame = requestAnimationFrame(render);
-    };
-
-    const onPointerDown = (e) => {
-      if (e.pointerType === "mouse" && e.button !== 0) return;
-      pointerId = e.pointerId;
-      (e.target).setPointerCapture?.(pointerId);
-      startX = e.clientX;
-      currentX = startX;
-      dragging = true;
-      track.style.transition = "none";
-      if (!animFrame) render();
-    };
-
-    const onPointerMove = (e) => {
-      if (!dragging || e.pointerId !== pointerId) return;
-      currentX = e.clientX;
-    };
-
-    const finishDrag = () => {
-      if (!dragging) return;
-      dragging = false;
-      cancelAnimationFrame(animFrame);
-      animFrame = null;
-      track.style.transition = "transform 350ms cubic-bezier(.2,.8,.2,1)";
-      const dx = currentX - startX;
-      const threshold = Math.max(40, width() * 0.15);
-      if (dx > threshold && active > 0) setActive((s) => s - 1);
-      else if (dx < -threshold && active < images.length - 1) setActive((s) => s + 1);
-      else {
-        // snap back (re-render transform by applying active)
-        track.style.transform = `translateX(${-active * width()}px)`;
-      }
-    };
-
-    const onPointerUp = (e) => {
-      if (e.pointerId !== pointerId) return finishDrag();
-    };
-    const onPointerCancel = () => finishDrag();
-
-    // attach pointer events
-    wrapper.addEventListener("pointerdown", onPointerDown, { passive: true });
-    window.addEventListener("pointermove", onPointerMove, { passive: true });
-    window.addEventListener("pointerup", onPointerUp, { passive: true });
-    window.addEventListener("pointercancel", onPointerCancel, { passive: true });
-
-    // ensure track position follows active when not dragging
-    const updatePos = () => {
-      if (!dragging) track.style.transform = `translateX(${-active * width()}px)`;
-    };
-    updatePos();
-
-    return () => {
-      wrapper.removeEventListener("pointerdown", onPointerDown);
-      window.removeEventListener("pointermove", onPointerMove);
-      window.removeEventListener("pointerup", onPointerUp);
-      window.removeEventListener("pointercancel", onPointerCancel);
-      cancelAnimationFrame(animFrame);
-    };
-  }, [active, images.length]);
-
-  // keyboard nav
-  useEffect(() => {
-    const onKey = (e) => {
-      if (e.key === "ArrowRight") setActive((s) => Math.min(s + 1, images.length - 1));
-      if (e.key === "ArrowLeft") setActive((s) => Math.max(s - 1, 0));
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [images.length]);
-
-  if (!images?.length) return null;
+  const goToPrev = () => {
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
+  };
 
   return (
-    <section className="relative w-full mt-6">
-      <div className="flex flex-col items-center relative">
-        <div
-          ref={wrapperRef}
-          className="carousel-wrapper relative w-full max-w-[75vw] mx-auto isolate"
-          style={{ height: heightPx ? `${heightPx}px` : undefined, touchAction: "pan-y" }}
-        >
+    <div className="relative w-full max-w-4xl overflow-hidden rounded-2xl z-10">
+      {/* Images */}
+      <div
+        className="flex transition-transform duration-700 ease-in-out"
+        style={{
+          transform: `translateX(-${currentIndex * 100}%)`,
+        }}
+      >
+        {images.map((img, index) => (
           <div
-            ref={trackRef}
-            className="carousel-track absolute left-0 top-0 h-full flex"
-            style={{ width: `${images.length * 100}%`, transform: `translateX(${-active * 100}%)`, transition: "transform 350ms cubic-bezier(.2,.8,.2,1)" }}
+            key={index}
+            className="w-full flex-shrink-0 flex justify-center items-center bg-transparent"
           >
-            {images.map((img, i) => (
-              <div key={i} className="carousel-slide flex-shrink-0 w-full flex items-center justify-center px-2 h-full">
-                <a href={img.link || "#"} className="block w-full h-full">
-                  <picture>
-                    <source
-                      srcSet={`${img.base}-320.webp 320w, ${img.base}-640.webp 640w, ${img.base}-1024.webp 1024w, ${img.base}-1600.webp 1600w`}
-                      sizes="(max-width:640px) 100vw, (max-width:1024px) 80vw, 60vw"
-                      type="image/webp"
-                    />
-                    <img
-                      src={`${img.base}-640.webp`}
-                      alt={img.alt || ""}
-                      className="carousel-img rounded-xl shadow-md"
-                      loading="lazy"
-                      decoding="async"
-                      style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-                    />
-                  </picture>
-                </a>
-              </div>
-            ))}
+            <picture>
+              <source srcSet={`${img.base}-1600.webp`} media="(min-width: 1280px)" />
+              <source srcSet={`${img.base}-1024.webp`} media="(min-width: 768px)" />
+              <source srcSet={`${img.base}-640.webp`} media="(min-width: 480px)" />
+              <img
+                src={`${img.base}-320.webp`}
+                alt={img.alt}
+                className="w-full h-auto object-contain select-none"
+                draggable="false"
+              />
+            </picture>
           </div>
-        </div>
+        ))}
+      </div>
 
-        <div className="carousel-dots flex items-center mt-4 z-[10]" style={{ columnGap: dotGap }}>
-          {images.map((_, i) => (
+      {/* Flèches de navigation */}
+      <button
+        onClick={goToPrev}
+        aria-label="Image précédente"
+        className="absolute top-1/2 left-3 -translate-y-1/2 bg-white/40 hover:bg-white/70 text-rose rounded-full p-2 backdrop-blur-md transition z-20"
+      >
+        ‹
+      </button>
+
+      <button
+        onClick={goToNext}
+        aria-label="Image suivante"
+        className="absolute top-1/2 right-3 -translate-y-1/2 bg-white/40 hover:bg-white/70 text-rose rounded-full p-2 backdrop-blur-md transition z-20"
+      >
+        ›
+      </button>
+
+      {/* Pastilles d’indication */}
+      <div
+        className="absolute bottom-4 left-1/2 -translate-x-1/2 flex justify-center items-center"
+        style={{ gap: dotGap }}
+        aria-hidden={images.length <= 1}
+      >
+        {images.map((_, index) => {
+          const isActive = currentIndex === index;
+          return (
             <button
-              key={i}
-              onClick={() => setActive(i)}
-              aria-label={`Aller à la diapo ${i + 1}`}
-              type="button"
-              className={`carousel-dot rounded-full inline-flex items-center justify-center p-0 min-w-0 border-0 outline-none appearance-none ${i === active ? "active" : ""}`}
+              key={index}
+              onClick={() => setCurrentIndex(index)}
+              className={`carousel-dot ${isActive ? "bg-rose" : "bg-white/70 hover:bg-white"}`}
               style={{
                 width: dotSize,
                 height: dotSize,
-                opacity: i === active ? 1 : 0.5,
-                transform: i === active ? "scale(1.15)" : "none",
-                background: "var(--accent)",
               }}
+              aria-label={`Aller à l’image ${index + 1}`}
+              aria-current={isActive ? "true" : "false"}
             />
-          ))}
-        </div>
+          );
+        })}
       </div>
-    </section>
+    </div>
   );
 }

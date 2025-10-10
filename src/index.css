@@ -2,161 +2,125 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ========== Variables globales ========== */
+/* ============================
+   🌸 POLICE — pile système optimisée
+   - Priorité : "Helvetica Neue" / Helvetica
+   - Substitution : Arial, puis fontes système modernes
+   ============================ */
 :root {
-  --accent: #f19fd3;
-  --text: var(--accent);
-  --decor-scale: 0.1rem;
-  --header-scale: 0.75;
-  --carousel-scale: 0.5; /* <-- nouvelle variable par défaut */
-  --gap-header-top: 0.75rem;
-  --gap-header-bottom: 1rem;
+  --rose: #f19fd3;
 }
 
-/* ========== Reset / layout ========== */
-html, body, #root {
-  height: 100%;
+/* ============================
+   🌊 GLOBAL STYLES
+   ============================ */
+html,
+body {
   margin: 0;
   padding: 0;
+  height: 100%;
   overflow-x: hidden;
-  font-family: "Helvetica", Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: var(--text); /* tout le texte en rose */
 }
 
-/* ========== Background site (global) ========== */
 body {
-  background-image: url("/images/optimized/background-1024.webp");
-  background-size: cover;
+  @apply flex flex-col min-h-screen;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Helvetica", "Arial", "Segoe UI", Roboto, "Noto Sans", "Liberation Sans", sans-serif;
+  color: var(--rose);
+  background-image: url("/images/background.png");
   background-position: center;
+  background-size: cover;
   background-repeat: no-repeat;
-  background-attachment: scroll; /* changed from fixed -> scroll */
+  background-attachment: fixed; /* background fixé */
+  background-color: #000; /* fallback */
 }
 
-@media (min-width: 1024px) {
-  body {
-    background-attachment: scroll; /* ensure not fixed on large screens */
+/* ============================
+   🧭 SCROLLBAR (subtile & clean)
+   ============================ */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: rgba(241, 159, 211, 0.28);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(241, 159, 211, 0.45);
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* ============================
+   ✨ MARQUEE ANIMATION
+   ============================ */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
   }
 }
 
-/* wrapper to set CSS variables easily */
-.page-wrapper {
-  position: relative;
-  min-height: auto; /* changed from 100vh -> évite forcer la page à occuper toute la fenêtre */
-  overflow-x: hidden;
+.animate-marquee {
+  display: inline-block;
+  white-space: nowrap;
+  animation: marquee 30s linear infinite;
 }
 
-/* ========== Utilities used by components ========== */
-.container-centered {
-  width: 100%;
-  max-width: 90vw;
-  margin-left: auto;
-  margin-right: auto;
+/* ============================
+   🩷 UTILITAIRES SUPPLÉMENTAIRES
+   ============================ */
+
+/* Centrage et layout */
+.centered {
+  @apply flex justify-center items-center text-center;
 }
 
-.marquee-viewport {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  overflow: hidden;
-  -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-  mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
-  padding-bottom: 0.75rem;
-  
+/* Texte rose par défaut */
+.text-rose {
+  color: var(--rose);
 }
 
-.marquee-inner {
-  width: 100%;
-  max-width: 90vw;
-  margin: 0 auto;
-  position: relative;
-  -webkit-mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
-  mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+/* Correction d’images décoratives (anti-sélection + pointer) */
+img[alt^="Décor"], .decoration {
+  user-select: none;
+  pointer-events: none;
 }
 
-.marquee-text {
-  font-weight: bolder;
-  font-size: x-large;
+/* Décor centré sur coin : centre de l'image aligné sur le coin (utile pour left/right over carousel) */
+.decor-center-on-corner {
+  position: absolute;
+  transform: translate(-50%, -50%); /* pour top-left (0,0) use translate(-50%,-50%) */
 }
 
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-.no-scrollbar::-webkit-scrollbar { display: none; }
-
-/* ensure body text (default color) is rose to match maquette */
-.text-accent { color: var(--accent); }
-
-/* small helpers */
-.hidden-on-mobile { display: none; }
-@media (min-width: 640px) { .hidden-on-mobile { display: block; } }
-
-/* Pastilles style */
-.carousel-dots { display:flex; gap:0.75rem; justify-content:center; align-items:center; }
-
-/* Give default sizes derived from variables (used inline if needed) */
-.carousel-img {
-  display: block;
-  width: 100%;
-  height: 100%;        /* rempli le container dont la hauteur est calculée JS */
-  object-fit: cover;   /* crop propre si l'image est plus grande */
-  max-height: none;    /* override possibles */
+/* Variante pour bottom-right center on corner */
+.decor-center-on-corner--br {
+  position: absolute;
+  transform: translate(50%, 50%); /* décaler depuis le coin bas droit pour que le centre s'aligne */
 }
 
-/* Decorative img sizes derived from variable */
-.decor-img {
-  width: calc(var(--decor-scale));
-  height: auto;
-}
-
-/* header sizing (léger ajustement si nécessaire) */
-.header-img {
-  display: block;
-  width: calc(80vw * var(--header-scale));
-  max-width: calc(40rem * var(--header-scale));
-  height: auto;
-  max-height: calc(40vh * var(--header-scale)); /* réduit un peu la hauteur max */
-  object-fit: contain;
-}
-
-/* ensure marquee single-line behavior */
-.marquee-text { white-space: nowrap; display:inline-flex; }
-
-/* Small tweak to ensure clickable dots don't cause outline ugliness */
-.carousel-dots button { border: none; background: transparent; padding:0; }
-
-
-/* ThreeSpans component text style */
-.spans-text {
-  font-size: 0.85rem;
-}
-
-.full-three-spans {
-  padding-bottom: 2rem;
-}
-
-/* Pastilles style */
-.carousel-dots { 
-  padding-top: 0.5rem;
-  display:flex;
-  gap:0.75rem;
-  justify-content:center;
-  align-items:center; }
-
-/* Dots: couleur accent, forme parfaitement circulaire, suppression du bord gris */
-.carousel-dots button {
+/* Dot/pastille accessible et ronde */
+.carousel-dot {
   border: none;
-  background: var(--accent); /* utilise #f19fd3 défini en :root */
-  padding: 0;
-  border-radius: 9999px;
   outline: none;
-  box-shadow: none;
+  transition: transform 160ms ease, background-color 160ms ease, box-shadow 160ms ease;
+  border-radius: 9999px;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.1);
 }
 
-/* focus visible accessible (optionnel) */
-.carousel-dots button:focus-visible {
-  outline: 2px solid rgba(0,0,0,0.12);
-  outline-offset: 2px;
+/* Indicateur visible lorsque actif */
+.carousel-dot[aria-current="true"] {
+  transform: scale(1.12);
+  box-shadow: 0 4px 12px rgba(241,159,211,0.18);
+}
+
+/* Ajustement mobile pour le background */
+@media (max-width: 640px) {
+  body {
+    background-attachment: scroll;
+    background-size: contain;
+  }
 }

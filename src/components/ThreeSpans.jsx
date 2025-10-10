@@ -1,25 +1,34 @@
 import React from "react";
 
-export default function ThreeSpans({
-  texts = [],
-  fontSizeClass = "text-sm sm:text-base",
-}) {
+/**
+ * ThreeSpans.jsx
+ * - Receives a `texts` array (3+ items supported)
+ * - fontSizeClass for external sizing control
+ * - Produces centered, pink spans with balanced spacing
+ */
+
+const ThreeSpans = ({ texts = [], fontSizeClass = "text-lg md:text-2xl" }) => {
+  if (!Array.isArray(texts) || texts.length === 0) {
+    return null;
+  }
+
   return (
-    <section className="w-full flex justify-center px-4 my-6">
-      <div className="container-centered text-center full-three-spans">
-        {texts.map((text, idx) => (
-          <p 
-            key={idx}
-            className={`${fontSizeClass} spans-text`}>
-            {text.split('\n').map((line, i) => (
-              <React.Fragment key={i}>
-                {line}
-                {i < text.split('\n').length - 1 && <br />}
-              </React.Fragment>
-            ))}
-          </p>
-        ))}
-      </div>
+    <section
+      className="w-full flex flex-col items-center justify-center text-center gap-6 py-8"
+      style={{
+        color: "var(--rose)",
+      }}
+    >
+      {texts.map((t, i) => (
+        <span
+          key={i}
+          className={`block ${fontSizeClass} font-medium max-w-[90%] md:max-w-[70%] leading-relaxed`}
+        >
+          {t}
+        </span>
+      ))}
     </section>
   );
-}
+};
+
+export default ThreeSpans;
