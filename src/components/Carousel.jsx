@@ -73,19 +73,25 @@ export default function Carousel({
     if (!vp) return;
     let raf = null;
 
+    const getSlideWidth = () => {
+      const slide = vp.querySelector(".carousel-slide");
+      return slide ? slide.getBoundingClientRect().width : vp.clientWidth || 1;
+    };
+
     const onScroll = () => {
       if (raf) cancelAnimationFrame(raf);
       raf = requestAnimationFrame(() => {
         const scrollLeft = vp.scrollLeft;
-        const clientW = vp.clientWidth || 1;
-        const idx = Math.round(scrollLeft / clientW);
+        const slideW = getSlideWidth();
+        const idx = Math.round(scrollLeft / slideW);
         setCurrentIndex((prev) => (prev !== idx ? idx : prev));
       });
     };
 
     vp.addEventListener("scroll", onScroll, { passive: true });
     const onResize = () => {
-      vp.scrollTo({ left: currentIndex * vp.clientWidth });
+      // resnap using actual slide width
+      vp.scrollTo({ left: currentIndex * getSlideWidth() });
     };
     window.addEventListener("resize", onResize);
 
@@ -152,7 +158,13 @@ export default function Carousel({
   const scrollToIndex = (idx) => {
     const vp = viewportRef.current;
     if (!vp) return;
-    const left = idx * vp.clientWidth;
+    const slide = vp.querySelector(".carousel-slide");
+    const slideW = slide ? slide.getBoundingClientRect().width : vp.clientWidth || 1;
+    let left = idx * slideW;
+    // clamp to valid scroll range
+    const maxLeft = Math.max(0, vp.scrollWidth - vp.clientWidth);
+    if (left > maxLeft) left = maxLeft;
+    if (left < 0) left = 0;
     vp.scrollTo({ left, behavior: "smooth" });
     setCurrentIndex(idx);
   };
