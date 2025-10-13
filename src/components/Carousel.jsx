@@ -89,13 +89,20 @@ export default function Carousel({
     };
 
     vp.addEventListener("scroll", onScroll, { passive: true });
+
     const onResize = () => {
       // resnap using actual slide width
       vp.scrollTo({ left: currentIndex * getSlideWidth() });
     };
     window.addEventListener("resize", onResize);
 
+    // ensure initial snap (small delay lets layout settle on mobile)
+    const t = setTimeout(() => {
+      vp.scrollTo({ left: currentIndex * getSlideWidth() });
+    }, 60);
+
     return () => {
+      clearTimeout(t);
       vp.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onResize);
       if (raf) cancelAnimationFrame(raf);
@@ -155,13 +162,13 @@ export default function Carousel({
     };
   }, []);
 
+  // scroll to chosen index using real slide width
   const scrollToIndex = (idx) => {
     const vp = viewportRef.current;
     if (!vp) return;
     const slide = vp.querySelector(".carousel-slide");
     const slideW = slide ? slide.getBoundingClientRect().width : vp.clientWidth || 1;
     let left = idx * slideW;
-    // clamp to valid scroll range
     const maxLeft = Math.max(0, vp.scrollWidth - vp.clientWidth);
     if (left > maxLeft) left = maxLeft;
     if (left < 0) left = 0;

@@ -49,24 +49,6 @@ body {
 }
 
 /* ============================
-   🧭 SCROLLBAR (subtile & clean)
-   ============================ */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-::-webkit-scrollbar-thumb {
-  background-color: rgba(241, 159, 211, 0.28);
-  border-radius: 9999px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(241, 159, 211, 0.45);
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-/* ============================
    ✨ MARQUEE ANIMATION
    ============================ */
 @keyframes marquee {
