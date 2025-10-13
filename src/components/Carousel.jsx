@@ -134,6 +134,8 @@ export default function Carousel({
         style={{
           aspectRatio: aspectRatio || undefined,
           height: !aspectRatio ? `${heightPx}px` : undefined,
+          touchAction: "pan-x",
+          overscrollBehaviorX: "contain",
         }}
       >
         {images.map((img, idx) => {

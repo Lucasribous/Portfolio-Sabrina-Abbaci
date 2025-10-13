@@ -38,6 +38,16 @@ body {
   background-color: #000; /* fallback */
 }
 
+/* --- background mobile fix & carousel touch behaviour --- */
+
+@media (max-width: 640px) {
+  body {
+    background-attachment: scroll; /* fixed casse l'affichage sur mobile */
+    background-size: cover;        /* cover évite les bandes noires */
+    background-position: center center;
+  }
+}
+
 /* ============================
    🧭 SCROLLBAR (subtile & clean)
    ============================ */
@@ -128,8 +138,9 @@ img[alt^="Décor"], .decoration {
 /* Ajustement mobile pour le background */
 @media (max-width: 640px) {
   body {
-    background-attachment: scroll;
-    background-size: contain;
+    background-attachment: scroll; /* fixed casse l'affichage sur mobile */
+    background-size: cover;        /* cover évite les bandes noires */
+    background-position: center center;
   }
 }
 
@@ -146,6 +157,8 @@ img[alt^="Décor"], .decoration {
   overflow-x: auto;
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
+  touch-action: pan-x;           /* permet le swipe horizontal sur mobile */
+  overscroll-behavior-x: contain;/* évite que le scroll horizontal "force" le scroll de la page */
   scroll-snap-type: x mandatory;
   display: flex;
   align-items: center;
