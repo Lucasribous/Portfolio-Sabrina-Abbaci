@@ -2,22 +2,11 @@ import React, { useEffect, useRef, useState } from "react";
 
 /**
  * Carousel.jsx
- * - Mobile-first swipe/scroll carousel (no autoplay)
+ * Mobile-first swipe/scroll carousel (no autoplay)
+ * - Adds pointer-based drag-to-scroll fallback so swipes always fonctionnent
  * - Props:
- *    images: [{ base, alt, href? }]  where `base` is path without size/extension, e.g. "/images/domestic-banana"
- *            expected assets: base-320.webp, base-640.webp, base-1024.webp, base-1600.webp and optional base.png
- *    dotSize: CSS size string for dot (ex "0.9rem")
- *    dotGap: gap between dots (ex "0.9rem")
- *    widthPercent: width of carousel relative to parent (string or number, ex "90%" or 90)
- *    maxWidth: CSS maxWidth to constrain carousel (ex "960px" or "100%")
- *    heightPx: optional explicit height in px (fallback if aspect-ratio not supported)
- *
- * Behaviour:
- * - horizontal scroll / swipe to change slides
- * - scroll-snap for smooth centering
- * - dots indicate active slide (active opacity=1, others 0.7)
- * - each image can include href to link (external opens _blank with rel)
- * - viewport height set via CSS aspect-ratio based on first image natural dimensions when available
+ *    images: [{ base, alt, href? }]
+ *    dotSize, dotGap, widthPercent, maxWidth, heightPx
  */
 
 const buildSrc = (base, size, ext) => `${base}-${size}.${ext}`;
@@ -27,22 +16,24 @@ export default function Carousel({
   images = [],
   dotSize = "0.9rem",
   dotGap = "0.9rem",
-  widthPercent = "75%", // can be "80%", 80, etc.
-  maxWidth = "100%", // container max width
-  heightPx = 480, // optional fallback explicit height in px
+  widthPercent = "75%",
+  maxWidth = "100%",
+  heightPx = 480,
 }) {
   const viewportRef = useRef(null);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [aspectRatio, setAspectRatio] = useState(null); // "w / h" string for CSS aspect-ratio
+  const isDown = useRef(false);
+  const startX = useRef(0);
+  const startScroll = useRef(0);
+  const moved = useRef(false);
 
-  // Normalize widthPercent
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [aspectRatio, setAspectRatio] = useState(null);
+
   const widthStyle =
     typeof widthPercent === "number" ? `${widthPercent}%` : widthPercent || "100%";
 
-  // Compute aspect ratio from first image to set viewport height (prevents CLS)
   useEffect(() => {
     if (!images || images.length === 0) return;
-
     const first = images[0];
     const base = first.base;
     if (!base) return;
@@ -76,7 +67,7 @@ export default function Carousel({
     };
   }, [images]);
 
-  // Update currentIndex on scroll
+  // scroll index update
   useEffect(() => {
     const vp = viewportRef.current;
     if (!vp) return;
@@ -93,9 +84,7 @@ export default function Carousel({
     };
 
     vp.addEventListener("scroll", onScroll, { passive: true });
-
     const onResize = () => {
-      // re-snap to current index to keep alignment
       vp.scrollTo({ left: currentIndex * vp.clientWidth });
     };
     window.addEventListener("resize", onResize);
@@ -106,6 +95,59 @@ export default function Carousel({
       if (raf) cancelAnimationFrame(raf);
     };
   }, [currentIndex]);
+
+  // Pointer drag handlers to guarantee swipe on all devices
+  useEffect(() => {
+    const vp = viewportRef.current;
+    if (!vp) return;
+
+    const onPointerDown = (e) => {
+      // only primary button / touch
+      if (e.pointerType === "mouse" && e.button !== 0) return;
+      isDown.current = true;
+      moved.current = false;
+      startX.current = e.clientX;
+      startScroll.current = vp.scrollLeft;
+      vp.setPointerCapture?.(e.pointerId);
+      vp.style.scrollBehavior = "auto"; // immediate during drag
+      vp.classList.add("dragging"); // optional for cursor styling
+    };
+
+    const onPointerMove = (e) => {
+      if (!isDown.current) return;
+      const dx = startX.current - e.clientX;
+      if (Math.abs(dx) > 3) moved.current = true;
+      vp.scrollLeft = startScroll.current + dx;
+    };
+
+    const endDrag = (e) => {
+      if (!isDown.current) return;
+      isDown.current = false;
+      try {
+        vp.releasePointerCapture?.(e.pointerId);
+      } catch (err) {}
+      // restore smooth behavior and snap to nearest
+      vp.style.scrollBehavior = "smooth";
+      // snap to nearest slide
+      const idx = Math.round(vp.scrollLeft / (vp.clientWidth || 1));
+      vp.scrollTo({ left: idx * vp.clientWidth, behavior: "smooth" });
+      vp.classList.remove("dragging");
+    };
+
+    vp.addEventListener("pointerdown", onPointerDown, { passive: true });
+    vp.addEventListener("pointermove", onPointerMove, { passive: true });
+    vp.addEventListener("pointerup", endDrag);
+    vp.addEventListener("pointercancel", endDrag);
+    vp.addEventListener("pointerleave", endDrag);
+
+    return () => {
+      vp.removeEventListener("pointerdown", onPointerDown);
+      vp.removeEventListener("pointermove", onPointerMove);
+      vp.removeEventListener("pointerup", endDrag);
+      vp.removeEventListener("pointercancel", endDrag);
+      vp.removeEventListener("pointerleave", endDrag);
+    };
+  }, []);
 
   const scrollToIndex = (idx) => {
     const vp = viewportRef.current;
@@ -136,6 +178,7 @@ export default function Carousel({
           height: !aspectRatio ? `${heightPx}px` : undefined,
           touchAction: "pan-x",
           overscrollBehaviorX: "contain",
+          cursor: undefined,
         }}
       >
         {images.map((img, idx) => {
@@ -167,7 +210,14 @@ export default function Carousel({
                 loading="lazy"
                 decoding="async"
                 className="select-none"
-                style={{ maxWidth: "100%", height: "100%", objectFit: "contain", display: "block" }}
+                style={{
+                  maxWidth: "100%",
+                  height: "100%",
+                  objectFit: "contain",
+                  display: "block",
+                  pointerEvents: "none",
+                  userSelect: "none",
+                }}
                 draggable={false}
               />
             </picture>
@@ -199,7 +249,7 @@ export default function Carousel({
         })}
       </div>
 
-      {/* Dots */}
+      {/* Dots below viewport */}
       <div
         className="carousel-dots"
         style={{
