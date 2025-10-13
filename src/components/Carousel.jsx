@@ -3,21 +3,12 @@ import React, { useEffect, useRef, useState } from "react";
 /**
  * Carousel.jsx
  * - Mobile-first swipe/scroll carousel (no autoplay)
- * - Props:
- *    images: [{ base, alt, href? }]  where `base` is path without size/extension, e.g. "/images/domestic-banana"
- *            expected assets: base-320.webp, base-640.webp, base-1024.webp, base-1600.webp and optional base.png
- *    dotSize: CSS size string for dot (ex "0.9rem")
- *    dotGap: gap between dots (ex "0.9rem")
- *    widthPercent: width of carousel relative to parent (string or number, ex "90%" or 90)
- *    maxWidth: CSS maxWidth to constrain carousel (ex "960px" or "100%")
- *    heightPx: optional explicit height in px (fallback if aspect-ratio not supported)
+ * - Pointer-based drag fallback for reliable swipe on mobile
+ * - Debug overlay shown when URL has ?debug=1 or localStorage.carouselDebug === "1"
  *
- * Behaviour:
- * - horizontal scroll / swipe to change slides
- * - scroll-snap for smooth centering
- * - dots indicate active slide (active opacity=1, others 0.7)
- * - each image can include href to link (external opens _blank with rel)
- * - viewport height set via CSS aspect-ratio based on first image natural dimensions when available
+ * Props:
+ *  - images: [{ base, alt, href? }]
+ *  - dotSize, dotGap, widthPercent, maxWidth, heightPx
  */
 
 const buildSrc = (base, size, ext) => `${base}-${size}.${ext}`;
@@ -27,22 +18,33 @@ export default function Carousel({
   images = [],
   dotSize = "0.9rem",
   dotGap = "0.9rem",
-  widthPercent = "75%", // can be "80%", 80, etc.
-  maxWidth = "100%", // container max width
-  heightPx = 480, // optional fallback explicit height in px
+  widthPercent = "75%",
+  maxWidth = "100%",
+  heightPx = 480,
 }) {
   const viewportRef = useRef(null);
+
+  const isDown = useRef(false);
+  const startX = useRef(0);
+  const startScroll = useRef(0);
+
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [aspectRatio, setAspectRatio] = useState(null); // "w / h" string for CSS aspect-ratio
+  const [aspectRatio, setAspectRatio] = useState(null);
+  const [debugInfo, setDebugInfo] = useState(null);
+  const [showDebug, setShowDebug] = useState(() => {
+    try {
+      const url = typeof window !== "undefined" ? new URL(window.location.href) : null;
+      return (url && url.searchParams.get("debug") === "1") || localStorage.getItem("carouselDebug") === "1";
+    } catch {
+      return false;
+    }
+  });
 
-  // Normalize widthPercent
-  const widthStyle =
-    typeof widthPercent === "number" ? `${widthPercent}%` : widthPercent || "100%";
+  const widthStyle = typeof widthPercent === "number" ? `${widthPercent}%` : widthPercent || "100%";
 
-  // Compute aspect ratio from first image to set viewport height (prevents CLS)
+  // compute aspect ratio from first image
   useEffect(() => {
     if (!images || images.length === 0) return;
-
     const first = images[0];
     const base = first.base;
     if (!base) return;
@@ -70,13 +72,20 @@ export default function Carousel({
     };
 
     img.src = trySources.shift();
-
     return () => {
       canceled = true;
     };
   }, [images]);
 
-  // Update currentIndex on scroll
+  // helpers
+  const getSlideWidth = () => {
+    const vp = viewportRef.current;
+    if (!vp) return 1;
+    const slide = vp.querySelector(".carousel-slide");
+    return slide ? slide.getBoundingClientRect().width : vp.clientWidth || 1;
+  };
+
+  // update currentIndex on scroll
   useEffect(() => {
     const vp = viewportRef.current;
     if (!vp) return;
@@ -85,9 +94,8 @@ export default function Carousel({
     const onScroll = () => {
       if (raf) cancelAnimationFrame(raf);
       raf = requestAnimationFrame(() => {
-        const scrollLeft = vp.scrollLeft;
-        const clientW = vp.clientWidth || 1;
-        const idx = Math.round(scrollLeft / clientW);
+        const slideW = getSlideWidth();
+        const idx = Math.round(vp.scrollLeft / slideW);
         setCurrentIndex((prev) => (prev !== idx ? idx : prev));
       });
     };
@@ -95,25 +103,116 @@ export default function Carousel({
     vp.addEventListener("scroll", onScroll, { passive: true });
 
     const onResize = () => {
-      // re-snap to current index to keep alignment
-      vp.scrollTo({ left: currentIndex * vp.clientWidth });
+      vp.scrollTo({ left: currentIndex * getSlideWidth() });
     };
     window.addEventListener("resize", onResize);
 
+    const t = setTimeout(() => {
+      // initial snap after layout settle
+      vp.scrollTo({ left: currentIndex * getSlideWidth() });
+    }, 60);
+
     return () => {
+      clearTimeout(t);
       vp.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onResize);
       if (raf) cancelAnimationFrame(raf);
     };
   }, [currentIndex]);
 
+  // pointer drag handlers (guarantee swipe on mobile)
+  useEffect(() => {
+    const vp = viewportRef.current;
+    if (!vp) return;
+
+    const onPointerDown = (e) => {
+      if (e.pointerType === "mouse" && e.button !== 0) return;
+      isDown.current = true;
+      startX.current = e.clientX;
+      startScroll.current = vp.scrollLeft;
+      try { vp.setPointerCapture?.(e.pointerId); } catch {}
+      vp.style.scrollBehavior = "auto";
+    };
+
+    const onPointerMove = (e) => {
+      if (!isDown.current) return;
+      const dx = startX.current - e.clientX;
+      vp.scrollLeft = startScroll.current + dx;
+    };
+
+    const endDrag = (e) => {
+      if (!isDown.current) return;
+      isDown.current = false;
+      try { vp.releasePointerCapture?.(e.pointerId); } catch {}
+      vp.style.scrollBehavior = "smooth";
+      const idx = Math.round(vp.scrollLeft / getSlideWidth());
+      vp.scrollTo({ left: idx * getSlideWidth(), behavior: "smooth" });
+    };
+
+    vp.addEventListener("pointerdown", onPointerDown, { passive: true });
+    vp.addEventListener("pointermove", onPointerMove, { passive: true });
+    vp.addEventListener("pointerup", endDrag);
+    vp.addEventListener("pointercancel", endDrag);
+    vp.addEventListener("pointerleave", endDrag);
+
+    return () => {
+      vp.removeEventListener("pointerdown", onPointerDown);
+      vp.removeEventListener("pointermove", onPointerMove);
+      vp.removeEventListener("pointerup", endDrag);
+      vp.removeEventListener("pointercancel", endDrag);
+      vp.removeEventListener("pointerleave", endDrag);
+    };
+  }, [images]);
+
+  // scroll to index using real slide width
   const scrollToIndex = (idx) => {
     const vp = viewportRef.current;
     if (!vp) return;
-    const left = idx * vp.clientWidth;
+    const slideW = getSlideWidth();
+    let left = idx * slideW;
+    const maxLeft = Math.max(0, vp.scrollWidth - vp.clientWidth);
+    if (left > maxLeft) left = maxLeft;
+    if (left < 0) left = 0;
     vp.scrollTo({ left, behavior: "smooth" });
     setCurrentIndex(idx);
   };
+
+  // debug overlay info
+  useEffect(() => {
+    if (!showDebug) return;
+    const vp = viewportRef.current;
+    if (!vp) {
+      setDebugInfo({ error: "no viewport element" });
+      return;
+    }
+    const getInfo = () => {
+      const slideEls = Array.from(vp.querySelectorAll(".carousel-slide"));
+      const slideWidths = slideEls.map((s) => Math.round(s.getBoundingClientRect().width * 10) / 10);
+      const rect = vp.getBoundingClientRect();
+      const centerEl = document.elementFromPoint(rect.left + rect.width / 2, rect.top + rect.height / 2);
+      const cs = getComputedStyle(vp);
+      return {
+        clientWidth: vp.clientWidth,
+        clientHeight: vp.clientHeight,
+        scrollWidth: vp.scrollWidth,
+        scrollLeft: vp.scrollLeft,
+        slideWidths,
+        centerTag: centerEl ? `${centerEl.tagName}.${(centerEl.className || "").toString().split(" ").join(".")}` : null,
+        overflowX: cs.overflowX,
+        touchAction: cs.touchAction,
+        pointerEvents: cs.pointerEvents,
+      };
+    };
+
+    setDebugInfo(getInfo());
+    const t1 = setTimeout(() => setDebugInfo(getInfo()), 120);
+    const t2 = setTimeout(() => setDebugInfo(getInfo()), 600);
+
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+    };
+  }, [showDebug, currentIndex, images]);
 
   if (!images || images.length === 0) return null;
 
@@ -134,6 +233,8 @@ export default function Carousel({
         style={{
           aspectRatio: aspectRatio || undefined,
           height: !aspectRatio ? `${heightPx}px` : undefined,
+          touchAction: "pan-x",
+          overscrollBehaviorX: "contain",
         }}
       >
         {images.map((img, idx) => {
@@ -162,10 +263,17 @@ export default function Carousel({
               <img
                 src={`${base}.png`}
                 alt={alt}
-                loading="lazy"
+                loading={idx === 0 ? "eager" : "lazy"}
                 decoding="async"
                 className="select-none"
-                style={{ maxWidth: "100%", height: "100%", objectFit: "contain", display: "block" }}
+                style={{
+                  maxWidth: "100%",
+                  height: "100%",
+                  objectFit: "contain",
+                  display: "block",
+                  pointerEvents: "none",
+                  userSelect: "none",
+                }}
                 draggable={false}
               />
             </picture>
@@ -197,7 +305,7 @@ export default function Carousel({
         })}
       </div>
 
-      {/* Dots */}
+      {/* dots below viewport */}
       <div
         className="carousel-dots"
         style={{
@@ -224,6 +332,51 @@ export default function Carousel({
           );
         })}
       </div>
+
+      {/* Debug overlay */}
+      {showDebug && debugInfo && (
+        <div
+          style={{
+            position: "fixed",
+            left: 8,
+            right: 8,
+            bottom: 12,
+            background: "rgba(0,0,0,0.78)",
+            color: "#fff",
+            padding: 10,
+            borderRadius: 8,
+            fontSize: 12,
+            zIndex: 9999,
+            maxHeight: "50vh",
+            overflow: "auto",
+            lineHeight: "1.2",
+          }}
+        >
+          <div style={{ display: "flex", justifyContent: "space-between", gap: 8 }}>
+            <strong>DEBUG carousel</strong>
+            <div style={{ display: "flex", gap: 8 }}>
+              <button
+                onClick={() => {
+                  setShowDebug(false);
+                  try { localStorage.setItem("carouselDebug", "0"); } catch {}
+                }}
+                style={{ background: "#f19fd3", border: "none", padding: "2px 6px", borderRadius: 6 }}
+              >
+                Hide
+              </button>
+              <button
+                onClick={() => {
+                  try { navigator.clipboard?.writeText(JSON.stringify(debugInfo, null, 2)); } catch {}
+                }}
+                style={{ background: "#fff", border: "none", padding: "2px 6px", borderRadius: 6 }}
+              >
+                Copy
+              </button>
+            </div>
+          </div>
+          <pre style={{ whiteSpace: "pre-wrap", marginTop: 8, color: "#fff" }}>{JSON.stringify(debugInfo, null, 2)}</pre>
+        </div>
+      )}
     </div>
   );
 }
