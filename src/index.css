@@ -182,6 +182,7 @@ img[alt^="Décor"], .decoration {
   height: 100%;
   display: block;
   object-fit: contain;
+  pointer-events: none;
 }
 
 /* Dots container */
@@ -235,4 +236,33 @@ img[alt^="Décor"], .decoration {
     margin-top: 0.5rem;
     gap: 1rem;
   }
+}
+
+/* Decorations: left.png center aligned on top-left corner, right.png center aligned on bottom-right corner */
+.carousel-decor {
+  position: absolute;
+  z-index: 60;
+  pointer-events: none;
+  user-select: none;
+  max-width: 36%;
+  width: auto;
+  height: auto;
+  opacity: 1;
+}
+.carousel-decor--left {
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -50%); /* center of image on top-left corner */
+}
+.carousel-decor--right {
+  bottom: 0;
+  right: 0;
+  transform: translate(50%, 50%); /* center of image on bottom-right corner */
+}
+
+/* small screens adjust decor sizes so they don't cover too much */
+@media (max-width: 640px) {
+  .carousel-decor { max-width: 48%; }
+  .carousel-decor--left { transform: translate(-40%, -40%); }
+  .carousel-decor--right { transform: translate(40%, 40%); }
 }
