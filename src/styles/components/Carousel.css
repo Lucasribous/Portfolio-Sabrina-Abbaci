@@ -21,6 +21,12 @@
   border: none;
   box-shadow: none;
   border-radius: 0;
+  -ms-overflow-style: none; /* IE/Edge */
+  scrollbar-width: none;    /* Firefox */
+}
+
+.carousel-viewport::-webkit-scrollbar {
+  display: none;            /* Chrome, Safari, Opera */
 }
 
 .carousel-item {
