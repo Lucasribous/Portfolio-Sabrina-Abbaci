@@ -11,6 +11,12 @@ import rightDeco from "./assets/decor-right.png";
 import slide1 from "./assets/domestic-banana.png";
 import slide2 from "./assets/les-paradis-artificiel.png";
 import slide3 from "./assets/rubrique-love.png";
+import slide4 from "./assets/frutiger.png";
+import slide5 from "./assets/gbogh.png";
+import slide6 from "./assets/slay.png";
+import slide7 from "./assets/barbie-detournement.png";
+import slide8 from "./assets/vitesse.png";
+import slide9 from "./assets/collage-demultiplication.png";
 
 export default function App() {
   const headerImage = { src: headerImg, alt: "Portfolio Sabrina Abbaci" };
@@ -19,7 +25,13 @@ export default function App() {
   const carouselImages = [
     { title: "Domestic Banana", image: slide1 },
     { title: "Les Paradis Artificiels", image: slide2 },
+    { title: "Dessin Slay", image: slide6 },
     { title: "Rubrique Love", image: slide3 },
+    { title: "Go Homme Or Go Back", image: slide5 },
+    { title: "Dessin Frutiger", image: slide4 },
+    { title: "Barbie détournement", image: slide7 },
+    { title: "Dessin Vitesse", image: slide8 },
+    { title: "Collage Démultiplication", image: slide9 },
   ];
 
   const cssVars = {
