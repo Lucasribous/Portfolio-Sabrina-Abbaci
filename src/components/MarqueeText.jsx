@@ -1,73 +1,56 @@
 import React from "react";
+// correction : CSS component dans src/styles/components
+import "../styles/components/MarqueeText.css";
 
 /**
- * MarqueeText.jsx
- * - Props :
- *    text: chaîne affichée (sera répétée pour effet continu)
- *    fontSizeClass: classes Tailwind pour la taille (ex: "text-xl md:text-3xl")
- *    fontWeight: number|string pour fontWeight CSS (ex: 700) ou classe via fontWeightClass
- *    fontWeightClass: optionnel, classe tailwind (ex: "font-bold")
- *    speedSeconds: durée de la boucle en secondes (défaut 30)
- *    repeat: nombre d'occurrences dans un bloc (défaut 4)
+ * MarqueeText.jsx — composant de texte défilant réutilisable
  *
- * Usage mobile-first. Le masque (mask-image) crée un dégradé latéral vers la transparence.
+ * Props :
+ *  - text (string) : texte à afficher
+ *  - speed (number) : durée complète du cycle en secondes (défaut 30)
+ *  - repeat (number) : nombre de répétitions du texte (défaut 4)
+ *  - color (string) : couleur personnalisée (CSS var ou code direct)
+ *  - weight (string|number) : poids de la police
+ *  - size (string) : taille de la police (ex: "1.5rem" ou "text-xl")
+ *  - gap (string|number) : espace horizontal entre les blocs
+ *  - className (string) : classes additionnelles
+ *
+ * 💡 Design pensé pour :
+ *  - être indépendant de Tailwind (utilisable dans d’autres contextes)
+ *  - s’adapter via CSS variables (thèmes, responsive, etc.)
  */
 
 export default function MarqueeText({
-  text = "SABRINA ABBACI — ",
-  fontSizeClass = "text-xl md:text-3xl",
-  fontWeight = "700",
-  fontWeightClass = "font-bold",
-  speedSeconds = 30,
-  repeat = 5,
+  text = "Défilement — ",
+  speed = 30,
+  repeat = 4,
+  color = "var(--color-rose, #f19fd3)",
+  weight = 700,
+  size = "1.5rem",
+  gap = "2rem",
+  className = "",
 }) {
-  // build an array of spans to repeat inside each block
-  const block = Array.from({ length: Math.max(2, repeat) }).map((_, i) => (
-    <span
-      key={i}
-      className={`${fontSizeClass} ${fontWeightClass} tracking-wide inline-block mx-8`}
-      style={{ fontFamily: "inherit" }}
-    >
+  const repeatedText = Array.from({ length: Math.max(2, repeat) }).map((_, i) => (
+    <span key={i} className="marquee__item">
       {text}
     </span>
   ));
 
-  // combine two identical blocks to create a continuous loop (translateX(-50%))
-  const movingStyle = {
-    display: "inline-block",
-    whiteSpace: "nowrap",
-    animation: `marquee ${speedSeconds}s linear infinite`,
-    willChange: "transform",
-  };
-
-  // mask gradients on left/right for fade effect (webkit + standard)
-  const containerStyle = {
-    maskImage: "linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)",
-    WebkitMaskImage:
-      "linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)",
-    overflow: "hidden",
-  };
-
-  // allow explicit numeric fontWeight if provided (overrides class)
-  const textStyle = fontWeight ? { fontWeight } : undefined;
-
   return (
     <div
-      className="w-full block"
-      style={containerStyle}
-      aria-label="Bandeau défilant"
+      className={`marquee ${className}`}
+      style={{
+        "--marquee-color": color,
+        "--marquee-speed": `${speed}s`,
+        "--marquee-font-size": size,
+        "--marquee-font-weight": weight,
+        "--marquee-gap": gap,
+      }}
+      aria-label="Texte défilant"
     >
-      <div
-        className="inline-block"
-        style={{
-          ...movingStyle,
-          // apply fontWeight to the whole moving block if provided
-          ...(textStyle || {}),
-        }}
-        aria-hidden="false"
-      >
-        <div className="inline-block">{block}</div>
-        <div className="inline-block">{block}</div>
+      <div className="marquee__track">
+        {repeatedText}
+        {repeatedText}
       </div>
     </div>
   );

@@ -1,42 +1,51 @@
-import "./index.css";
+import "./styles/index.css";
 import Header from "./components/Header";
 import MarqueeText from "./components/MarqueeText";
 import ThreeSpans from "./components/ThreeSpans";
 import Carousel from "./components/Carousel";
 
-export default function App() {
-  // Image du header (webp ou png dans /public/images/)
-  const headerImage = { base: "/images/header", alt: "Portfolio Sabrina Abbaci" };
+// import images depuis src/assets
+import headerImg from "./assets/header.png";
+import leftDeco from "./assets/decor-left.png";
+import rightDeco from "./assets/decor-right.png";
+import slide1 from "./assets/domestic-banana.png";
+import slide2 from "./assets/les-paradis-artificiel.png";
+import slide3 from "./assets/rubrique-love.png";
 
-  // Images du carrousel (les fichiers doivent exister en -320.webp, -640.webp, -1024.webp, -1600.webp)
+export default function App() {
+  const headerImage = { src: headerImg, alt: "Portfolio Sabrina Abbaci" };
+
+  // Liste des images du carrousel
   const carouselImages = [
-    { base: "/images/domestic-banana", alt: "Domestic banana" },
-    { base: "/images/les-paradis-artificiels", alt: "Les paradis artificiels" },
-    { base: "/images/rubrique-love", alt: "Rubrique Love" },
+    { title: "Domestic Banana", image: slide1 },
+    { title: "Les Paradis Artificiels", image: slide2 },
+    { title: "Rubrique Love", image: slide3 },
   ];
 
-  // Variables CSS globales (tu peux modifier les valeurs depuis App ou CSS vars)
   const cssVars = {
     "--gap-header-top": "2rem",
     "--gap-header-bottom": "2rem",
   };
 
   return (
-    <div className="relative min-h-screen flex flex-col items-center justify-start text-rose" style={cssVars}>
-      {/* ========== HEADER ========== */}
+    <div
+      className="relative min-h-screen flex flex-col items-center justify-start text-rose"
+      style={cssVars}
+    >
+      {/* HEADER */}
       <Header image={headerImage} />
 
-      {/* ========== MARQUEE ========== */}
+      {/* MARQUEE */}
       <section className="w-full overflow-hidden py-2">
         <MarqueeText
-          text="SABRINA ABBACI       "
+          text="SABRINA ABBACI       "
           fontSizeClass="text-2xl sm:text-3xl"
           fontWeightClass="font-semibold"
           speedSeconds={30}
         />
       </section>
 
-      {/* ========== TEXT SECTION ========== */}
+      {/* TEXTE INTRO */}
       <ThreeSpans
         texts={[
           "Étudiante en DNMADe Narration et Motion Design, je manie aussi bien les calques Photoshop que les refrains de mes artistes préférés. Mon terrain de jeu : l’image, le son, les univers visuels qui donnent une identité aux artistes.",
@@ -47,31 +56,30 @@ export default function App() {
         fontSizeClass="text-sm sm:text-base"
       />
 
-      {/* ========== CAROUSEL SECTION ========== */}
+     {/* CAROUSEL SECTION */}
       <section className="relative w-full flex justify-center mt-10 mb-20">
-        {/* Container du carrousel pour positionner précisément les décors par rapport au carrousel */}
         <div className="relative w-full max-w-4xl flex justify-center items-center">
-          {/* Décor gauche : centre de l vignette aligné au coin haut-gauche du carrousel */}
+          {/* décor gauche — centré sur le coin haut-gauche, derrière le carrousel */}
           <img
-            src="/images/left.png"
-            alt="Décor gauche"
-            className="decor-center-on-corner w-40 sm:w-56 md:w-64 decoration left-0 top-0 pointer-events-none select-none"
+            src={leftDeco}
+            alt=""
+            className="carousel-decor carousel-decor--left"
             aria-hidden="true"
-            style={{ zIndex: 0 }}
+            style={{ '--decor-offset-x': '2%', '--decor-offset-y': '-50%', zIndex: 5 }}
           />
 
-          {/* Le carrousel (z inférieur à right.png) */}
-          <div className="relative z-10 w-full">
-            <Carousel images={carouselImages} dotSize="0.9rem" dotGap="0.9rem" />
+          {/* carrousel (doit rester au-dessus du décor gauche) */}
+          <div className="relative z-10 w-full flex justify-center">
+            <Carousel items={carouselImages} baseWidth={600} autoplay={false} loop={false} />
           </div>
 
-          {/* Décor droite : centre de la vignette aligné au coin bas-droit du carrousel, au-dessus */}
+          {/* décor droite — centré sur le coin bas-droit, au-dessus du carrousel */}
           <img
-            src="/images/right.png"
-            alt="Décor droite"
-            className="decor-center-on-corner--br w-40 sm:w-56 md:w-64 decoration right-0 bottom-0 pointer-events-none select-none"
+            src={rightDeco}
+            alt=""
+            className="carousel-decor carousel-decor--right"
             aria-hidden="true"
-            style={{ zIndex: 30 }}
+            style={{ '--decor-offset-x': '-15%', '--decor-offset-y': '-20%', zIndex: 20 }}
           />
         </div>
       </section>

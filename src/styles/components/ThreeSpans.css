@@ -1,0 +1,61 @@
+/* ==========================================
+   🩷 ThreeSpans.css
+   Composant de texte multi-paragraphes réutilisable
+   ========================================== */
+
+.three-spans {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: var(--three-align, center);
+  gap: var(--three-gap, 1.5rem);
+  padding-top: var(--three-pt, 2rem);
+  padding-bottom: var(--three-pb, 3rem);
+  color: var(--three-color, #f19fd3);
+  width: 100%;
+}
+
+.three-spans__paragraph {
+  max-width: var(--three-max-width, 90%);
+  margin: 0 auto;
+  line-height: 1.6;
+  font-size: var(--three-font-size, 1rem);
+  font-weight: var(--three-font-weight, 400);
+  text-align: inherit;
+}
+
+/* ===============================
+   ✨ Variantes génériques
+   =============================== */
+
+/* Version sombre (texte clair) */
+.three-spans--dark {
+  --three-color: #fff;
+}
+
+/* Version compacte (espacement réduit) */
+.three-spans--compact {
+  --three-gap: 0.75rem;
+  --three-pt: 1rem;
+  --three-pb: 1.5rem;
+}
+
+/* Version large (typo plus grande) */
+.three-spans--large {
+  --three-font-size: 1.25rem;
+  --three-max-width: 800px;
+}
+
+/* Responsive typographique (mobile-first) */
+@media (min-width: 640px) {
+  .three-spans__paragraph {
+    font-size: calc(var(--three-font-size, 1rem) * 1.1);
+  }
+}
+
+@media (min-width: 1024px) {
+  .three-spans__paragraph {
+    font-size: calc(var(--three-font-size, 1rem) * 1.2);
+  }
+}

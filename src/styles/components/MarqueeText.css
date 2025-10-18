@@ -1,0 +1,65 @@
+/* ===============================
+   🎠 MarqueeText.css
+   — composant de texte défilant réutilisable
+   =============================== */
+
+.marquee {
+  --marquee-color: #f19fd3;
+  --marquee-speed: 30s;
+  --marquee-font-size: 1.5rem;
+  --marquee-font-weight: 700;
+  --marquee-gap: 2rem;
+
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+  display: block;
+  user-select: none;
+}
+
+.marquee__track {
+  display: inline-flex;
+  gap: var(--marquee-gap);
+  color: var(--marquee-color);
+  font-size: var(--marquee-font-size);
+  font-weight: var(--marquee-font-weight);
+  will-change: transform;
+  animation: marquee-scroll var(--marquee-speed) linear infinite;
+}
+
+.marquee__item {
+  display: inline-block;
+  letter-spacing: 0.05em;
+}
+
+/* Animation */
+@keyframes marquee-scroll {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ===============================
+   🔧 Modificateurs réutilisables
+   =============================== */
+
+/* Variante direction inverse */
+.marquee--reverse .marquee__track {
+  animation-direction: reverse;
+}
+
+/* Variante ralentie */
+.marquee--slow {
+  --marquee-speed: 60s;
+}
+
+/* Variante rapide */
+.marquee--fast {
+  --marquee-speed: 15s;
+}
+
+/* Thème sombre */
+.marquee--dark {
+  --marquee-color: #fff;
+}

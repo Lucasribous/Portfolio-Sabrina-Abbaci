@@ -1,18 +1,19 @@
-// ...existing code...
 import React from "react";
+import "../styles/components/ThreeSpans.css";
 
 /**
- * ThreeSpans.jsx
- * - Props :
- *    texts: array de chaînes (obligatoire)
- *    gap: espace entre les paragraphes (ex: "1.5rem" ou "24px")
- *    paddingTop / paddingBottom: paddings du container (ex: "2rem")
- *    maxWidth: largeur max des paragraphes (ex: "90%" ou "720px")
- *    fontSizeClass: classes Tailwind pour la taille (ex: "text-lg md:text-2xl")
- *    fontSize: valeur numérique en px (ex: 18) -> priorité sur fontSizeClass si fourni
- *    fontWeightClass: classe tailwind pour la graisse (ex: "font-medium", "font-bold")
+ * ThreeSpans.jsx — composant de texte multi-paragraphes réutilisable
  *
- * Usage mobile-first. Texte centré et couleur rose via la variable --rose.
+ * Props :
+ *  - texts (string[]) : tableau de paragraphes à afficher (obligatoire)
+ *  - gap (string|number) : espace vertical entre les paragraphes (défaut "1.5rem")
+ *  - paddingTop / paddingBottom (string|number) : marges internes haut/bas
+ *  - maxWidth (string|number) : largeur max du bloc texte (défaut "90%")
+ *  - color (string) : couleur du texte (CSS var ou code direct)
+ *  - fontSize (string|number) : taille de police (ex: "1.125rem" ou 18)
+ *  - weight (string|number) : poids de la police (ex: 400, 600, "bold")
+ *  - align (string) : alignement du texte ("center" | "left" | "right")
+ *  - className (string) : classes additionnelles
  */
 
 export default function ThreeSpans({
@@ -21,43 +22,35 @@ export default function ThreeSpans({
   paddingTop = "2rem",
   paddingBottom = "3rem",
   maxWidth = "90%",
-  fontSizeClass = "text-lg md:text-2xl",
-  fontSize, // number in px, optional (overrides fontSizeClass)
-  fontWeightClass = "font-medium",
+  color = "var(--rose, #f19fd3)",
+  fontSize = "1rem",
+  weight = 400,
+  align = "center",
+  className = "",
 }) {
   if (!Array.isArray(texts) || texts.length === 0) return null;
 
-  const containerStyle = {
-    gap,
-    paddingTop,
-    paddingBottom,
-    color: "var(--rose)",
-  };
-
-  const paragraphStyle = {
-    maxWidth,
-    margin: "0 auto",
-    textAlign: "center",
-    ...(typeof fontSize === "number" ? { fontSize: `${fontSize}px` } : {}),
-  };
-
   return (
     <section
-      className="w-full flex flex-col items-center justify-center text-center"
-      style={containerStyle}
-      aria-label="Présentation"
+      className={`three-spans ${className}`}
+      style={{
+        "--three-gap": typeof gap === "number" ? `${gap}px` : gap,
+        "--three-pt": typeof paddingTop === "number" ? `${paddingTop}px` : paddingTop,
+        "--three-pb": typeof paddingBottom === "number" ? `${paddingBottom}px` : paddingBottom,
+        "--three-max-width": typeof maxWidth === "number" ? `${maxWidth}px` : maxWidth,
+        "--three-color": color,
+        "--three-font-size": typeof fontSize === "number" ? `${fontSize}px` : fontSize,
+        "--three-font-weight": weight,
+        "--three-align": align,
+      }}
+      aria-label="Bloc de texte"
       role="region"
     >
-      {texts.map((t, i) => (
-        <p
-          key={i}
-          className={`${fontSizeClass} ${fontWeightClass} leading-relaxed`}
-          style={paragraphStyle}
-        >
-          {t}
+      {texts.map((text, index) => (
+        <p key={index} className="three-spans__paragraph">
+          {text}
         </p>
       ))}
     </section>
   );
 }
-// ...existing code...

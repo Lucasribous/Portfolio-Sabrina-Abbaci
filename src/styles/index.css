@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================
+   🌸 POLICE — pile système optimisée
+   - Priorité : "Helvetica Neue" / Helvetica
+   - Substitution : Arial, puis fontes système modernes
+   ============================ */
+:root {
+  --rose: #f19fd3;
+
+  /* Contrôles du carousel (modifiable) */
+  --carousel-width: 75%;       /* largeur relative par défaut du carousel wrapper */
+  --carousel-max-width: 1100px;/* largeur max du carousel wrapper */
+}
+
+/* ============================
+   🌊 GLOBAL STYLES
+   ============================ */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  @apply flex flex-col min-h-screen;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Helvetica", "Arial", "Segoe UI", Roboto, "Noto Sans", "Liberation Sans", sans-serif;
+  color: var(--rose);
+  background-image: url("../assets/background.png");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed; /* background fixé */
+  background-color: #000; /* fallback */
+}
+
+/* --- background mobile fix & carousel touch behaviour --- */
+
+@media (max-width: 640px) {
+  body {
+    background-attachment: scroll; /* fixed casse l'affichage sur mobile */
+    background-size: cover;        /* cover évite les bandes noires */
+    background-position: center center;
+  }
+}
