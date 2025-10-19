@@ -3,6 +3,7 @@ import Header from "./components/Header";
 import MarqueeText from "./components/MarqueeText";
 import ThreeSpans from "./components/ThreeSpans";
 import Carousel from "./components/Carousel";
+import ShinyText from './components/ShinyText';
 
 // import images depuis src/assets
 import headerImg from "./assets/header.png";
@@ -77,7 +78,7 @@ export default function App() {
             alt=""
             className="carousel-decor carousel-decor--left"
             aria-hidden="true"
-            style={{ '--decor-offset-x': '2%', '--decor-offset-y': '-50%', zIndex: 5 }}
+            style={{ '--decor-offset-x': '2%', '--decor-offset-y': '-30%', zIndex: 5 }}
           />
 
           {/* carrousel (doit rester au-dessus du décor gauche) */}
@@ -91,9 +92,27 @@ export default function App() {
             alt=""
             className="carousel-decor carousel-decor--right"
             aria-hidden="true"
-            style={{ '--decor-offset-x': '-15%', '--decor-offset-y': '-20%', zIndex: 20 }}
+            style={{ '--decor-offset-x': '-5%', '--decor-offset-y': '-30%', zIndex: 20 }}
           />
         </div>
+      </section>
+      
+      <section className="w-full px-4 mb-20 max-w-3xl text-center">
+        <p className="text-sm sm:text-base">
+          Pour en découvrir plus sur mes projets et collaborations 👇🏼
+        </p>
+      </section>
+
+      {/* Shiny text section */}
+      <section className="w-full py-10 flex justify-center">
+        <a className="shiny-link" href="#gallery">
+          <ShinyText
+            text="Gallerie"
+            disabled={false}
+            speed={3}
+            className='custom-class'
+          />
+        </a>
       </section>
     </div>
   );

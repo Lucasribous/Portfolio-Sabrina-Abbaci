@@ -38,6 +38,16 @@ body {
   background-color: #000; /* fallback */
 }
 
+.shiny-link {
+  background-color: rgba(22, 22, 22, 0.75);
+  padding: 0.5rem 1rem;
+  border-radius: 1rem;
+  border-color: #f19fd3;
+  border-style: solid;
+  border-width: 1px;
+  margin-bottom: 3rem;
+}
+
 /* --- background mobile fix & carousel touch behaviour --- */
 
 @media (max-width: 640px) {
@@ -47,3 +57,4 @@ body {
     background-position: center center;
   }
 }
+
