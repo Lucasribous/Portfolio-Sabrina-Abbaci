@@ -489,10 +489,11 @@ export default function ASCIIText({
           user-select: none;
           padding: 0;
           line-height: 1em;
-          text-align: left;
+          text-align: center;
           position: absolute;
-          left: 0;
-          top: 0;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
           background-image: radial-gradient(circle, #ff6188 0%, #fc9867 50%, #ffd866 100%);
           background-attachment: fixed;
           -webkit-text-fill-color: transparent;
