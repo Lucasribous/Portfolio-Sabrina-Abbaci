@@ -293,7 +293,7 @@ class CanvAscii {
     this.renderer.setClearColor(0x000000, 0);
 
     this.filter = new AsciiFilter(this.renderer, {
-      fontFamily: 'work sans, sans-serif',
+      fontFamily: 'new courier, sans-serif',
       fontSize: this.asciiFontSize,
       invert: true
     });
