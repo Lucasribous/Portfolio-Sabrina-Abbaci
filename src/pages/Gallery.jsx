@@ -30,7 +30,7 @@ export default function Gallery() {
         enableWaves={false}
         asciiFontSize={5}
         textFontSize={200}
-        planeBaseHeight={10}
+        planeBaseHeight={3}
         textColor="#f19fd3"
       />
     </section>

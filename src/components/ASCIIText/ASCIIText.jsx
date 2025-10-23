@@ -457,13 +457,14 @@ export default function ASCIIText({
 
   return (
     <div
-      ref={containerRef}
-      className="ascii-text-container"
-      style={{
-        position: 'absolute',
-        width: '100%',
-        height: '25%'
-      }}
+        ref={containerRef}
+        className="ascii-text-container"
+        style={{
+            position: 'relative',   // pas absolute, sauf si besoin
+            width: '100%',
+            height: '90vh',        // occupe tout l’écran
+            overflow: 'hidden'      // évite les débordements visuels
+        }}
     >
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
