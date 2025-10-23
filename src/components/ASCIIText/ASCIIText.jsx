@@ -178,7 +178,7 @@ class AsciiFilter {
 }
 
 class CanvasTxt {
-  constructor(txt, { fontSize = 200, fontFamily = 'work sans', color = '#fdf9f3' } = {}) {
+  constructor(txt, { fontSize = 200, fontFamily = 'Arial', color = '#fdf9f3' } = {}) {
     this.canvas = document.createElement('canvas');
     this.context = this.canvas.getContext('2d');
     this.txt = txt;
@@ -256,7 +256,7 @@ class CanvAscii {
   setMesh() {
     this.textCanvas = new CanvasTxt(this.textString, {
       fontSize: this.textFontSize,
-      fontFamily: 'Work Sans',
+      fontFamily: 'IBM Plex Mono',
       color: this.textColor
     });
     this.textCanvas.resize();
@@ -293,7 +293,7 @@ class CanvAscii {
     this.renderer.setClearColor(0x000000, 0);
 
     this.filter = new AsciiFilter(this.renderer, {
-      fontFamily: 'Work Sans',
+      fontFamily: 'IBM Plex Mono',
       fontSize: this.asciiFontSize,
       invert: true
     });
@@ -457,17 +457,16 @@ export default function ASCIIText({
 
   return (
     <div
-        ref={containerRef}
-        className="ascii-text-container"
-        style={{
-            position: 'relative',   // pas absolute, sauf si besoin
-            width: '100%',
-            height: '90vh',        // occupe tout l’écran
-            overflow: 'hidden'      // évite les débordements visuels
-        }}
+      ref={containerRef}
+      className="ascii-text-container"
+      style={{
+        position: 'absolute',
+        width: '100%',
+        height: '100%'
+      }}
     >
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&display=swap');
 
         .ascii-text-container canvas {
           position: absolute;
@@ -489,11 +488,10 @@ export default function ASCIIText({
           user-select: none;
           padding: 0;
           line-height: 1em;
-          text-align: center;
+          text-align: left;
           position: absolute;
-          left: 50%;
-          top: 50%;
-          transform: translate(-50%, -50%);
+          left: 0;
+          top: 0;
           background-image: radial-gradient(circle, #ff6188 0%, #fc9867 50%, #ffd866 100%);
           background-attachment: fixed;
           -webkit-text-fill-color: transparent;

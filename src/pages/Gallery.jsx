@@ -29,7 +29,7 @@ export default function Gallery() {
       text='galerie'
         enableWaves={false}
         asciiFontSize={5}
-        textFontSize={200}
+        textFontSize={100}
         planeBaseHeight={3}
         textColor="#f19fd3"
       />
