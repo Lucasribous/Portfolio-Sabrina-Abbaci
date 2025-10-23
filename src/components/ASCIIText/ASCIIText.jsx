@@ -465,7 +465,7 @@ export default function ASCIIText({
         position: 'relative',
         width: '100%',
         height: '100%',
-        zIndex: 50
+        zIndex: 9
       }}
     >
       <style>{`
@@ -503,7 +503,7 @@ export default function ASCIIText({
           background-attachment: fixed;
           -webkit-text-fill-color: transparent;
           -webkit-background-clip: text;
-          z-index: 60; /* plus haut que Masonry */
+          z-index: 9; /* plus haut que Masonry */
           mix-blend-mode: difference;
         }
       `}</style>
