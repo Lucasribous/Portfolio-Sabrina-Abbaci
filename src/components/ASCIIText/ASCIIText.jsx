@@ -69,7 +69,7 @@ class AsciiFilter {
 
     this.deg = 0;
     this.invert = invert ?? true;
-    this.fontSize = fontSize ?? 3;
+    this.fontSize = fontSize ?? 25;
     this.fontFamily = fontFamily ?? "new courier, monospace";
     this.charset = charset ?? ' .\'`^",:;Il!i~+_-?][}{1)(|/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$';
 
@@ -109,7 +109,7 @@ class AsciiFilter {
     this.pre.style.position = 'absolute';
     this.pre.style.left = '50%';
     this.pre.style.top = '50%';
-    this.pre.style.transform = 'translate(-50%, -50%)';
+    this.pre.style.transform = 'translate(-35%, -50%)';
     this.pre.style.zIndex = '9';
     this.pre.style.backgroundAttachment = 'fixed';
     this.pre.style.mixBlendMode = 'difference';

@@ -51,7 +51,7 @@ body {
 .ASCIIText {
   padding-top: 1rem;
   height: 125px;
-  width: 100%;
+  width: auto;
   display: flex;
   justify-content: center;
   align-items: center;
