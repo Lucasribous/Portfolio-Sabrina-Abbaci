@@ -70,8 +70,8 @@ class AsciiFilter {
     this.deg = 0;
     this.invert = invert ?? true;
     this.fontSize = fontSize ?? 12;
-    this.fontFamily = fontFamily ?? "'Courier New', monospace";
-    this.charset = charset ?? ' .\'`^",:;Il!i~+_-?][}{1)(|/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$';
+    this.fontFamily = fontFamily ?? "";
+    this.charset = charset ?? '';
 
     this.context.webkitImageSmoothingEnabled = false;
     this.context.mozImageSmoothingEnabled = false;
@@ -293,7 +293,7 @@ class CanvAscii {
     this.renderer.setClearColor(0x000000, 0);
 
     this.filter = new AsciiFilter(this.renderer, {
-      fontFamily: 'IBM Plex Mono',
+      fontFamily: 'work sans, sans-serif',
       fontSize: this.asciiFontSize,
       invert: true
     });
