@@ -69,7 +69,7 @@ class AsciiFilter {
 
     this.deg = 0;
     this.invert = invert ?? true;
-    this.fontSize = fontSize ?? 25;
+    this.fontSize = fontSize ?? 12;
     this.fontFamily = fontFamily ?? "new courier, monospace";
     this.charset = charset ?? ' .\'`^",:;Il!i~+_-?][}{1)(|/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$';
 
