@@ -1,0 +1,7 @@
+.ASCIIText {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50%;
+  background: #0f0f0f;
+}

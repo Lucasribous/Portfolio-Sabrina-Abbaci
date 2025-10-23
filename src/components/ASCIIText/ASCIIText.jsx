@@ -70,7 +70,7 @@ class AsciiFilter {
     this.deg = 0;
     this.invert = invert ?? true;
     this.fontSize = fontSize ?? 12;
-    this.fontFamily = fontFamily ?? "new courier, monospace";
+    this.fontFamily = fontFamily ?? "'Courier New', monospace";
     this.charset = charset ?? ' .\'`^",:;Il!i~+_-?][}{1)(|/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$';
 
     this.context.webkitImageSmoothingEnabled = false;
@@ -109,7 +109,7 @@ class AsciiFilter {
     this.pre.style.position = 'absolute';
     this.pre.style.left = '50%';
     this.pre.style.top = '50%';
-    this.pre.style.transform = 'translate(-35%, -50%)';
+    this.pre.style.transform = 'translate(-50%, -50%)';
     this.pre.style.zIndex = '9';
     this.pre.style.backgroundAttachment = 'fixed';
     this.pre.style.mixBlendMode = 'difference';
@@ -178,7 +178,7 @@ class AsciiFilter {
 }
 
 class CanvasTxt {
-  constructor(txt, { fontSize = 200, fontFamily = 'Arial', color = '#fdf9f3' } = {}) {
+  constructor(txt, { fontSize = 200, fontFamily = 'work sans', color = '#fdf9f3' } = {}) {
     this.canvas = document.createElement('canvas');
     this.context = this.canvas.getContext('2d');
     this.txt = txt;
@@ -256,7 +256,7 @@ class CanvAscii {
   setMesh() {
     this.textCanvas = new CanvasTxt(this.textString, {
       fontSize: this.textFontSize,
-      fontFamily: 'Work Sans, sans-serif',
+      fontFamily: 'Work Sans',
       color: this.textColor
     });
     this.textCanvas.resize();
@@ -293,7 +293,7 @@ class CanvAscii {
     this.renderer.setClearColor(0x000000, 0);
 
     this.filter = new AsciiFilter(this.renderer, {
-      fontFamily: 'new courier, sans-serif',
+      fontFamily: 'Work Sans',
       fontSize: this.asciiFontSize,
       invert: true
     });
@@ -459,13 +459,10 @@ export default function ASCIIText({
     <div
       ref={containerRef}
       className="ascii-text-container"
-      // position relative => suit le flux (se déplace au scroll)
-      // zIndex élevé pour rester au-dessus du Masonry
       style={{
-        position: 'relative',
+        position: 'absolute',
         width: '100%',
-        height: '100%',
-        zIndex: 9
+        height: '100%'
       }}
     >
       <style>{`
@@ -477,7 +474,6 @@ export default function ASCIIText({
           top: 0;
           width: 100%;
           height: 100%;
-          z-index: 1;
           image-rendering: optimizeSpeed;
           image-rendering: -moz-crisp-edges;
           image-rendering: -o-crisp-edges;
@@ -485,7 +481,6 @@ export default function ASCIIText({
           image-rendering: optimize-contrast;
           image-rendering: crisp-edges;
           image-rendering: pixelated;
-          pointer-events: none;
         }
 
         .ascii-text-container pre {
@@ -495,15 +490,13 @@ export default function ASCIIText({
           line-height: 1em;
           text-align: left;
           position: absolute;
-          left: 50%;
+          left: 0;
           top: 0;
-          transform: translateX(-50%);
-          width: 100%;
           background-image: radial-gradient(circle, #ff6188 0%, #fc9867 50%, #ffd866 100%);
           background-attachment: fixed;
           -webkit-text-fill-color: transparent;
           -webkit-background-clip: text;
-          z-index: 9; /* plus haut que Masonry */
+          z-index: 9;
           mix-blend-mode: difference;
         }
       `}</style>
