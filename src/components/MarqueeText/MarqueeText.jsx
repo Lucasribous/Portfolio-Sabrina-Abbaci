@@ -1,6 +1,6 @@
 import React from "react";
 // correction : CSS component dans src/styles/components
-import "../styles/components/MarqueeText.css";
+import "./MarqueeText.css";
 
 /**
  * MarqueeText.jsx — composant de texte défilant réutilisable

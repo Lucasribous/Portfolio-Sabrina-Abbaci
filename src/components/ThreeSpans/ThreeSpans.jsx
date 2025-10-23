@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/components/ThreeSpans.css";
+import "./ThreeSpans.css";
 
 /**
  * ThreeSpans.jsx — composant de texte multi-paragraphes réutilisable

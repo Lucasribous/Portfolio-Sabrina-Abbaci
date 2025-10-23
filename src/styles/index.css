@@ -48,6 +48,15 @@ body {
   margin-bottom: 3rem;
 }
 
+.ASCIIText {
+  padding-top: 1rem;
+  height: 125px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 /* --- background mobile fix & carousel touch behaviour --- */
 
 @media (max-width: 640px) {

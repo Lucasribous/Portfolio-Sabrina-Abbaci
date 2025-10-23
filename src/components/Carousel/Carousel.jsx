@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 // correction : CSS centralisé sous src/styles/components
-import "../styles/components/Carousel.css";
+import "./Carousel.css";
 
 export default function Carousel({
   items = [], // expect: [{ title, image }] where image is a public path (e.g. "/assets/slide1.png")

@@ -19,7 +19,6 @@
 .three-spans__paragraph {
   max-width: var(--three-max-width, 90%);
   margin: 0 auto;
-  line-height: 1.6;
   font-size: var(--three-font-size, 1rem);
   font-weight: var(--three-font-weight, 400);
   text-align: inherit;

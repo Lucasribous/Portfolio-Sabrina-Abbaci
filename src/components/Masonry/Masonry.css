@@ -1,0 +1,34 @@
+.masonry-list {
+  width: 100%;
+  position: relative;
+  margin-top: 0.5rem;
+  margin-bottom: 3rem;
+  /* s'assurer que le Masonry reste sous l'ASCII header */
+  z-index: 1;
+}
+
+/* each item is absolutely positioned by the component */
+.masonry-item {
+  overflow: hidden;
+  padding: 0;
+  border-radius: 3px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  /* pas de z-index ici pour éviter d'écraser l'ASCIIText */
+}
+
+/* image keeps its original ratio (contain) and fills the item box */
+.masonry-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* small optional hover effect (disable if not wanted) */
+.masonry-item:hover .masonry-img {
+  transform-origin: center;
+  transform: scale(1.02);
+  transition: transform 220ms ease;
+}

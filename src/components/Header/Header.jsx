@@ -1,6 +1,6 @@
 import React from "react";
 // import CSS depuis src/styles/components
-import "../styles/components/Header.css";
+import "./Header.css";
 
 export default function Header({
   image = { src: "/assets/header.png", alt: "Sabrina Abbaci" },
