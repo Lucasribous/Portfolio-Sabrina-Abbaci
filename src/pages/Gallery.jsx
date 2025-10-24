@@ -28,9 +28,9 @@ export default function Gallery() {
       <ASCIIText
       text='galerie'
         enableWaves={false}
-        asciiFontSize={4}
+        asciiFontSize={5}
         textFontSize={100}
-        planeBaseHeight={12}
+        planeBaseHeight={4}
         textColor="#f19fd3"
       />
     </section>

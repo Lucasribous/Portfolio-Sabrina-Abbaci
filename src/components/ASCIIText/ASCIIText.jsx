@@ -94,7 +94,7 @@ class AsciiFilter {
 
   reset() {
     this.context.font = `${this.fontSize}px ${this.fontFamily}`;
-    const charWidth = this.context.measureText('O').width;
+    const charWidth = this.context.measureText('A').width;
 
     this.cols = Math.floor(this.width / (this.fontSize * (charWidth / this.fontSize)));
     this.rows = Math.floor(this.height / this.fontSize);
@@ -460,11 +460,9 @@ export default function ASCIIText({
       ref={containerRef}
       className="ascii-text-container"
       style={{
-        // rester dans le flux de la page pour défiler avec le scroll
-        position: 'relative',
-        width: 'var(--ascii-width, 100%)',    // contrôlable depuis le CSS/caller
-        height: 'var(--ascii-height, 160px)', // must provide an explicit height
-        overflow: 'hidden'
+        position: 'relative',           // reste dans le flux => défile avec la page
+        width: '100%',
+        height: '350%',                 // hauteur contrôlée par la section parent / CSS
       }}
     >
       <style>{`
