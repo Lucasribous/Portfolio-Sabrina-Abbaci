@@ -461,8 +461,8 @@ export default function ASCIIText({
       className="ascii-text-container"
       style={{
         position: 'relative',           // reste dans le flux => défile avec la page
-        width: '400%',
-        height: '400%',                 // hauteur contrôlée par la section parent / CSS
+        width: '500%',
+        height: '500%',                 // hauteur contrôlée par la section parent / CSS
       }}
     >
       <style>{`
