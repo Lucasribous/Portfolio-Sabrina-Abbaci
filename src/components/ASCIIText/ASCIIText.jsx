@@ -462,7 +462,7 @@ export default function ASCIIText({
       style={{
         position: 'relative',           // reste dans le flux => défile avec la page
         width: '100%',
-        height: '350%',                 // hauteur contrôlée par la section parent / CSS
+        height: '400%',                 // hauteur contrôlée par la section parent / CSS
       }}
     >
       <style>{`
