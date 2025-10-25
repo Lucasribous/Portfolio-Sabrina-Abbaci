@@ -1,0 +1,214 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.page-header {
+  position: relative;      /* conteneur de référence pour l'overlay */
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 0.5rem;
+}
+
+/* image du header centrée et responsive (reste dans le flux) */
+.GoBack {
+  width: 10%;
+  height: auto;
+}
+
+.project-title {
+  /* variable par défaut — change cette variable pour ajuster uniquement ce titre */
+  --la-title-size: 4rem; /* desktop default */
+  font-size: var(--la-title-size);
+  font-weight: 800; /* équivalent de font-extrabold */
+  line-height: 1;
+  text-align: center;
+  width: 100%;
+  height: auto;
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+.project-subtitle {
+  --la-subtitle-size: 1rem; /* desktop default */
+  font-size: var(--la-subtitle-size);
+  font-weight: 500; /* équivalent de font-medium */
+  text-align: center;
+  width: 100%;
+  height: auto;
+  margin: 0;
+}
+
+.titre {
+  margin-top: 1rem;
+  margin-bottom: 4rem;
+}
+
+
+.project-image-section {
+  display: flex;
+  justify-content: center; /* centre horizontalement */
+  align-items: center;     /* centre verticalement si la section a une hauteur */
+  text-align: center;
+  width: 100%;
+  margin-bottom: 1.5rem;
+}
+
+.project-image {
+  display: block;
+  margin: 0 auto;        /* fallback centrage */
+  width: min(640px, 85%); /* ajuste la largeur max visuelle */
+  height: auto;
+  justify-content: center;
+  align-items: center;
+  border-radius: 3px;
+}
+
+.project-image-4 {
+  width: min(640px, 85%);
+  height: auto;
+  display: block;
+  margin: 0 auto; /* centre horizontalement */
+  justify-content: center;
+  align-items: center;
+  border-radius: 3px;
+}
+
+.project-description {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #f19fd3;
+  width: 100%;
+}
+
+.text {
+  width: 80%;
+  margin: 0 auto;
+  font-size: 1rem;
+  font-weight: 400;
+  margin-bottom: 1.5rem;
+}
+
+.project-video {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center; /* centre horizontalement */
+  align-items: center;     /* centre verticalement si la section a une hauteur */
+  margin-bottom: 1.5rem;
+}
+
+.project-video-player {
+  display: block;
+  width: 80%;
+  height: auto;
+  border-radius: 3px;
+}
+
+.video-description {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #f19fd3;
+  width: 100%;
+}
+
+.shiny-link {
+  background-color: rgba(22, 22, 22, 0.75);
+  padding: 0.5rem 1rem;
+  border-radius: 1rem;
+  border-color: #f19fd3;
+  border-style: solid;
+  border-width: 1px;
+  margin-bottom: 1rem;
+}
+
+.project-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* bouton gauche à gauche, bouton droit à droite */
+  gap: 1rem;
+  width: 100%;
+  max-width: 900px; /* contrôle la largeur du groupe — ajuste si besoin */
+  padding: 0 1rem;
+  box-sizing: border-box;
+}
+
+.project-nav .shiny-link {
+  display: inline-flex;      /* assure que le lien s'adapte au contenu */
+  align-items: center;
+  text-decoration: none;
+  margin-top: 3rem;
+}
+
+/* optionnel : forcer le positionnement gauche/droite si tu veux tailles fixes */
+.project-nav .shiny-link:first-child { justify-self: flex-start; }
+.project-nav .shiny-link:last-child  { justify-self: flex-end; }
+
+/* responsive examples — ajuste comme tu veux */
+@media (min-width: 640px) {
+  .project-title { --la-title-size: 5.5rem; } /* sm+ */
+}
+@media (min-width: 1024px) {
+  .project-title { --la-title-size: 7rem; } /* lg+ */
+}
+
+.three-images {
+  /* remove any gap so images touch */
+  --three-images-gap: 0.5rem;
+
+  display: flex;
+  flex-wrap: nowrap; /* keep on one line when possible */
+  justify-content: center;
+  align-items: center;
+  gap: var(--three-images-gap);
+  width: 85%;
+  margin: 0 auto;          /* centre horizontalement la ligne d'images */
+  padding: 0;
+  box-sizing: border-box;
+  margin-bottom: 1.5rem;
+}
+
+/* each figure takes exactly one third of the row (accounts for gap variable) */
+.project-image-item {
+  flex: 0 0 calc((100% - (2 * var(--three-images-gap))) / 3);
+  max-width: calc((100% - (2 * var(--three-images-gap))) / 3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+/* force the img to fill its box with no extra spacing */
+.project-image-item img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover; /* fills the container; change to 'contain' if you need full image visible */
+  border-radius: 3px;
+  margin: 0;
+}
+
+.project-image-alt {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+
+}
+
+/* override spécifique pour l'image moodboard afin qu'elle fasse 85% */
+.project-image-section .project-image-4,
+.project-image-section .project-image-item .project-image-4 {
+  width: 85%;
+  max-width: 640px;
+  display: block;
+  margin: 0 auto;
+  height: auto;
+  object-fit: contain; /* ne pas cropper l'image */
+}

@@ -207,7 +207,7 @@ export default function Masonry({
             key={item.id}
             data-key={item.id}
             className="masonry-item"
-            onClick={() => item.url && window.open(item.url, "_blank", "noopener")}
+            onClick={() => item.url && (window.location.href = item.url)}
             onMouseEnter={(e) => handleMouseEnter(e, item)}
             onMouseLeave={handleMouseLeave}
             style={{
