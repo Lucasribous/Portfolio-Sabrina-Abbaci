@@ -8,6 +8,8 @@ import { useNavigate } from 'react-router-dom';
 
 import Back from "../assets/back.png";
 import LesArtsMonnetImage from "../assets/les-arts-monnet.png";
+import FestivalMonnetVideo from "../assets/festival-monnet.mp4";
+import FestivalMonnetPoster from "../assets/festival-monnet.png";
 
 export default function LesArtsMonnet() {
     // handler required par <SplitText />. Défini ici pour éviter une ReferenceError qui empêche le rendu.
@@ -67,14 +69,14 @@ export default function LesArtsMonnet() {
             </section>
             <section className="project-video">
                 <video
-                    className="project-video-player"
-                    src="https://d183lnwxwyo5i2.cloudfront.net/e3alpn%2Ffile%2F719a54d4811824ee2ac772748ebde413_28840a28f5130d462e6fa617cac7c812.mp4?response-content-disposition=inline%3Bfilename%3D%22719a54d4811824ee2ac772748ebde413_28840a28f5130d462e6fa617cac7c812.mp4%22%3B&response-content-type=video%2Fmp4&Expires=1761365536&Signature=QlbK7MQJk~hqBQ67TioLD3jnNVIKGq3JEW6dT3yt9XU9VJyVm8EzV6-JoG5owHY~ATktfROZYCwJtP6DFJkhZPMbUIZ~N0Aq3ICFN3wU01lxCOT19UBTzzIOMdvovDsHUkqNOA1DvBvFiW~CzE86oKd0V3XrypdtpD5PzQcSFYjSsqQpLcPmPR9A6F9sz5-pRmZr-IulAyBJwjSXHuIvv4kkSMA3FsgeCroUxvo2W8rgw4TdvPZxCfe3KAdX9bd1uPrjYISD1FYOD1yQuBmfTfuT~klXycAJLpUJz360OYb~LORRlDwtrxqa2sI9tpQUkqgCn-6z8dtw-pVyUBn-7A__&Key-Pair-Id=APKAJT5WQLLEOADKLHBQ"
-                    controls
-                    loop
-                    muted
-                    playsInline
+                  className="project-video-player"
+                  src={FestivalMonnetVideo}
+                  poster={FestivalMonnetPoster}
+                  controls
+                  preload="none"
+                  playsInline
                 >
-                    Votre navigateur ne prend pas en charge la balise vidéo.
+                  Votre navigateur ne prend pas en charge la balise vidéo.
                 </video>
             </section>
             <section className="video-description">
