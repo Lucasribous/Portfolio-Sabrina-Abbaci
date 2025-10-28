@@ -2,6 +2,7 @@ import "../styles/index.css";
 
 import SplitText from "../components/SplitText/SplitText";
 import ShinyText from "../components/ShinyText/ShinyText";
+import Balatro from '../components/Balatro/Balatro';
 import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 
@@ -85,19 +86,19 @@ export default function ContactPage() {
             </section>
             <hr></hr>
             <section className="lucasribous-credit-section">
-            <div
-              className="lucasribous-section"
-              style={{
-                backgroundImage: `url('/assets/lucasribous.gif')`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
-              }}
-            >
+            <div className="lucasribous-section">
+              <div className="lucasribous-bg">
+                <Balatro
+                  spinRotation={-2}
+                  spinSpeed={7}
+                  mouseInteraction={false}
+                />
+              </div>
+              <div className="lucasribous-content">
                 <p className="credit-site">Développé et designé par Lucasribous</p>
                 <div className="lucas-row">
                   <img src={Lucas} alt="Lucas" className="lucas-image" />
-                  <p className="lucas-description">Développeur web passionné par la création d'expériences utilisateur uniques.</p>
+                  <p className="lucas-description">Designer et développeur web passionné par la création d'expériences utilisateur uniques.</p>
                 </div>
                 <p className="contact-info">
                     Pour toute demande de collaboration ou d'information, n'hésitez pas à me contacter <br/>
@@ -128,6 +129,7 @@ export default function ContactPage() {
                         />
                     </a>
                 </p>
+              </div>
             </div>
             </section>
         </main>

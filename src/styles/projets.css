@@ -331,3 +331,58 @@ hr {
 .les-arts-monnet .project-subtitle * {
   font-size: 1.2rem !important;
 }
+
+/* Balatro background for lucasribous section */
+.lucasribous-section {
+  position: relative;
+  overflow: hidden;
+  border-radius: 3px;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* wrapper that holds Balatro component (absolute, behind content) */
+.lucasribous-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none; /* allow clicks on content above */
+  display: block;
+}
+
+/* ensure the balatro canvas fills the wrapper (Balatro's .balatro-container already uses 100%/100%) */
+.lucasribous-bg .balatro-container {
+  width: 100%;
+  height: 100%;
+}
+
+/* content sits above the background */
+.lucasribous-content {
+  position: relative;
+  z-index: 1;
+  padding: 1.5rem; /* ajuster si besoin */
+  box-sizing: border-box;
+  width: 100%;
+}
+
+/* si besoin, ajuste l'opacité / overlay pour lisibilité */
+.lucasribous-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.15); /* optionnel : léger voile pour contraste */
+  z-index: 0;
+  pointer-events: none;
+}
+
+.credit-site {
+  width: 100%;
+  padding-bottom: 1rem;
+}
+
+.lucas-row {
+  padding-bottom: 1rem;
+}
