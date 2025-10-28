@@ -18,8 +18,7 @@
 
   /* Contrôles du carousel (modifiable) */
   --carousel-width: 75%;       /* largeur relative par défaut du carousel wrapper */
-  --carousel-max-width: 1100px;/* largeur max du carousel wrapper */
-}
+   }
 
 /* ============================
    🌊 GLOBAL STYLES
@@ -62,16 +61,6 @@ body {
   align-items: center;
 }
 
-/* --- background mobile fix & carousel touch behaviour --- */
-
-@media (max-width: 640px) {
-  body {
-    background-attachment: scroll; /* fixed casse l'affichage sur mobile */
-    background-size: cover;        /* cover évite les bandes noires */
-    background-position: center center;
-  }
-}
-
 /* Centre le bloc contact, le texte à 80% et le bouton en dessous */
 .contact-section {
   display: flex;
@@ -80,6 +69,7 @@ body {
   justify-content: center;
   padding: 2rem 1rem;
   text-align: center;
+  margin: 0 auto;
 }
 
 .contact-text {

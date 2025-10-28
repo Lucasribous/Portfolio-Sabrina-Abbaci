@@ -140,50 +140,50 @@ export default function Carousel(props) {
   useEffect(() => {
     const vp = viewportRef.current;
     if (!vp) return;
+    // Implementation note:
+    // - On mobile we prefer native touch scrolling (don't preventDefault on touchstart),
+    //   so we only intercept pointer events coming from a mouse to provide click-drag.
+    // - Keep touch-action: pan-y in CSS so vertical page scroll still works and horizontal
+    //   scroll is available for user gestures.
     let isDown = false;
     let startX = 0;
     let scrollLeft = 0;
 
     const onPointerDown = (e) => {
-      isDown = true;
-      vp.classList.add("is-dragging");
-      startX = e.pageX ?? (e.touches && e.touches[0].pageX) ?? 0;
-      scrollLeft = vp.scrollLeft;
-      // prevent text/image selection while dragging
-      e.preventDefault();
+      // pointerType might be "mouse", "pen", or "touch"
+      // Only preventDefault and start a JS drag for mouse/pen — let touch use native scroll
+      if (e.pointerType === "mouse" || e.pointerType === "pen") {
+        isDown = true;
+        vp.classList.add("is-dragging");
+        startX = e.pageX;
+        scrollLeft = vp.scrollLeft;
+        e.preventDefault();
+      }
     };
 
     const onPointerMove = (e) => {
       if (!isDown) return;
-      const x = e.pageX ?? (e.touches && e.touches[0].pageX) ?? 0;
+      const x = e.pageX;
       const walk = x - startX;
       vp.scrollLeft = scrollLeft - walk;
     };
 
     const stopDrag = () => {
+      if (!isDown) return;
       isDown = false;
       vp.classList.remove("is-dragging");
     };
 
-    // pointer events (preferred)
     vp.addEventListener("pointerdown", onPointerDown, { passive: false });
     window.addEventListener("pointermove", onPointerMove, { passive: false });
     window.addEventListener("pointerup", stopDrag);
     window.addEventListener("pointerleave", stopDrag);
-
-    // fallback for older touch only browsers
-    vp.addEventListener("touchstart", onPointerDown, { passive: false });
-    vp.addEventListener("touchmove", onPointerMove, { passive: false });
-    vp.addEventListener("touchend", stopDrag);
 
     return () => {
       vp.removeEventListener("pointerdown", onPointerDown);
       window.removeEventListener("pointermove", onPointerMove);
       window.removeEventListener("pointerup", stopDrag);
       window.removeEventListener("pointerleave", stopDrag);
-      vp.removeEventListener("touchstart", onPointerDown);
-      vp.removeEventListener("touchmove", onPointerMove);
-      vp.removeEventListener("touchend", stopDrag);
     };
   }, []);
 
