@@ -1,6 +1,9 @@
 import "../styles/index.css";
 import Masonry from "../components/Masonry/Masonry";
 import ASCIIText from "../components/ASCIIText/ASCIIText";
+import ShinyText from "../components/ShinyText/ShinyText";
+import { Link } from "react-router-dom";
+
 import BookCovers from "../assets/domestic-banana.png";
 import VingtAns from "../assets/collage-demultiplication.png";
 import Trajectoire from "../assets/trajectoire.png";
@@ -34,7 +37,7 @@ export default function Gallery() {
         textColor="#f19fd3"
       />
     </section>
-
+    <section className="masonry-gallery">
       <div style={{ padding: 8 }}>
         <Masonry
           items={items}
@@ -45,6 +48,20 @@ export default function Gallery() {
           containerPadding={20} // px left/right padding
         />
       </div>
+    </section>
+    <section className="contact-section">
+      <p className="contact-text">
+        Vous souhaitez collaborer ou en savoir plus sur mon travail ? Contactez moi
+      </p>
+      <Link to="/contact" className="shiny-link">
+          <ShinyText
+              text="contact"
+              disabled={false}
+              speed={3}
+              className='custom-class'
+          />
+      </Link>
+    </section>
     </>
   );
 }

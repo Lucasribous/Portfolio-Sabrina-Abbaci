@@ -1,3 +1,37 @@
+/* wrapper link / bouton */
+.shiny-link {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  background: var(--shiny-bg-color, transparent);          /* fond configurable */
+  border: 1px solid var(--shiny-border-color, transparent);/* bordure configurable */
+  text-decoration: none;
+  box-sizing: border-box;
+}
+
+/* texte avec effet "shiny" (utilise variables) */
+.shiny-text {
+  /* fallback color */
+  color: var(--shiny-base-color, #b5b5b5);
+  /* gradient pour l'effet shiny — utilise --shiny-base-color et --rose */
+  background: linear-gradient(
+    120deg,
+    var(--shiny-base-color, #b5b5b5) 30%,
+    var(--rose, #ff6188) 60%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent; /* affiche le gradient */
+  display: inline-block;
+  cursor: pointer;
+}
+
+/* interaction (optionnel) */
+.shiny-link:hover .shiny-text {
+  filter: brightness(1.05);
+}
+
 .shiny-text {
   color: #b5b5b5a4; /* Adjust this color to change intensity/style */
   background: linear-gradient(

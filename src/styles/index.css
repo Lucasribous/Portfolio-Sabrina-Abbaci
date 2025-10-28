@@ -66,3 +66,89 @@ body {
   }
 }
 
+/* Centre le bloc contact, le texte à 80% et le bouton en dessous */
+.contact-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  text-align: center;
+}
+
+.contact-text {
+  width: 80%;
+  max-width: 1100px; /* optionnel */
+  margin: 0 auto;
+  font-size: 1.125rem;
+  line-height: 1.4;
+}
+
+/* centre le lien / bouton sous le texte */
+.contact-section .shiny-link {
+  margin-top: 1rem;
+  display: inline-block;
+}
+
+/* layout for contact section */
+.lucasribous-section {
+  width: 90%;
+  max-width: 1100px;
+  margin: 2rem auto;
+  border-radius: 3px;
+  padding: 1.5rem;
+  box-sizing: border-box;
+  color: inherit;
+  text-align: center; /* credit-site and contact-info centered */
+  overflow: hidden;   /* ensure bg respects border-radius */
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  color: white;
+}
+
+/* credit centered (already inherited text-align:center) */
+.credit-site {
+  margin: 0;
+  font-size: 0.95rem;
+  opacity: 0.95;
+}
+
+/* row that contains image (left) and description (right) */
+.lucas-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* center the row as whole */
+  gap: 1.25rem;
+}
+
+/* image left */
+.lucas-image {
+  width: 220px;       /* fixed visual size */
+  max-width: 35%;
+  height: auto;
+  display: block;
+  border-radius: 3px;
+}
+
+/* description on the right, takes remaining space and left-aligned */
+.lucas-description {
+  flex: 1 1 auto;
+  margin: 0;
+  text-align: left;
+  font-size: 1rem;
+}
+
+/* contact info centered under the row */
+.contact-info {
+  width: 100%;
+  text-align: center;
+  margin: 0;
+  font-size: 0.98rem;
+}
+
+.contact-info a {
+  margin-top: 1.5rem;
+  margin-bottom: -0.2rem;
+}

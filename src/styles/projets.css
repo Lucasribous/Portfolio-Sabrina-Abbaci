@@ -212,3 +212,56 @@
   height: auto;
   object-fit: contain; /* ne pas cropper l'image */
 }
+
+/* aligner 3 images sur une ligne sans caption (DessinDigital.jsx) */
+.three-images-no-caption {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: stretch; /* children take same height */
+  gap: var(--three-images-gap, 0.5rem);
+  width: min(1100px, 90%);
+  margin: 0 auto;
+  box-sizing: border-box;
+  padding: 0;
+  padding-bottom: 1.5rem;
+}
+
+.three-images-no-caption > img {
+  flex: 0 0 calc((100% - (2 * var(--three-images-gap, 0.5rem))) / 3);
+  max-width: calc((100% - (2 * var(--three-images-gap, 0.5rem))) / 3);
+  width: 100%;
+  height: auto; /* same height for all images */
+  object-fit: cover; /* crop to fill box; use 'contain' to avoid cropping */
+  display: block;
+  margin: 0;
+  border-radius: 3px;
+}
+
+.two-images-no-caption {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: stretch; /* children take same height */
+  gap: var(--three-images-gap, 0.5rem);
+  width: min(1100px, 90%);
+  margin: 0 auto;
+  box-sizing: border-box;
+  padding: 0;
+  padding-bottom: 1.5rem;
+}
+
+.two-images-no-caption > img {
+  flex: 0 0 calc((100% - (2 * var(--three-images-gap, 0.5rem))) / 2);
+  max-width: calc((100% - (2 * var(--three-images-gap, 0.5rem))) / 2);
+  width: 100%;
+  height: auto; /* same height for all images */
+  object-fit: cover; /* crop to fill box; use 'contain' to avoid cropping */
+  display: block;
+  margin: 0;
+  border-radius: 3px;
+}
+
+.ThreeSpans {
+  margin-bottom: 0;
+}
