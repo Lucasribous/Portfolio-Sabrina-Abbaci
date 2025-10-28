@@ -8,38 +8,46 @@
 
 .carousel-viewport {
   display: flex;
-  flex-wrap: nowrap;
-  align-items: stretch;
-  width: 100%;
-  overflow-x: auto;
+  gap: 1rem;                        /* espace entre les slides */
+  overflow-x: auto;                 /* scroll horizontal */
   overflow-y: hidden;
-  -webkit-overflow-scrolling: touch;
-  touch-action: pan-x;
-  overscroll-behavior-x: contain;
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
-  border: none;
-  box-shadow: none;
-  border-radius: 0;
-  -ms-overflow-style: none; /* IE/Edge */
-  scrollbar-width: none;    /* Firefox */
+  scroll-snap-type: x mandatory;    /* snap aux slides */
+  -webkit-overflow-scrolling: touch;/* inertial scrolling iOS */
+  scroll-behavior: smooth;          /* smooth pour scrollBy / scrollTo */
+  touch-action: pan-y;              /* laisse la page scroller verticalement, permet swipe horizontal */
+  -ms-overflow-style: none;         /* hide old IE scrollbar if desired */
+  will-change: scroll-position;     /* hint pour perf */
+  user-select: none;                /* évite sélection lors du drag avec la souris */
 }
 
+/* chaque item doit s'aligner sur le snap (si nécessaire) */
+.carousel-viewport .carousel-item {
+  scroll-snap-align: start;
+  flex: 0 0 auto;  /* empêche les slides de s'étirer */
+}
+
+/* scrollbar stylée visible sur desktop */
 .carousel-viewport::-webkit-scrollbar {
-  display: none;            /* Chrome, Safari, Opera */
+  height: 10px;
+}
+.carousel-viewport::-webkit-scrollbar-track {
+  background: transparent;
+}
+.carousel-viewport::-webkit-scrollbar-thumb {
+  background: rgba(241,159,211,0.9); /* rose */
+  border-radius: 8px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+@media (max-width: 640px) {
+  /* sur mobile on peut masquer la barre si on préfère */
+  .carousel-viewport::-webkit-scrollbar { display: none; height: 0; }
+  .carousel-viewport { scrollbar-width: none; }
 }
 
-.carousel-viewport {
-  cursor: grab;
-  touch-action: pan-y; /* allow vertical page scroll when not dragging horizontally */
-  -webkit-user-drag: none;
-  user-select: none;
-}
-
-.carousel-viewport.is-dragging {
-  cursor: grabbing;
-  user-select: none;
-}
+/* curseur pour desktop drag */
+.carousel-viewport { cursor: grab; }
+.carousel-viewport.is-dragging { cursor: grabbing; }
 
 .carousel-item {
   flex: 0 0 100%;
