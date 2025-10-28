@@ -9,15 +9,15 @@ import ShinyText from '../components/ShinyText/ShinyText';
 import headerImg from "../assets/header.png";
 import leftDeco from "../assets/decor-left.png";
 import rightDeco from "../assets/decor-right.png";
-import slide1 from "../assets/domestic-banana.png";
-import slide2 from "../assets/les-paradis-artificiel.png";
-import slide3 from "../assets/rubrique-love.png";
-import slide4 from "../assets/frutiger.png";
-import slide5 from "../assets/gbogh.png";
-import slide6 from "../assets/slay.png";
+import slide1 from "../assets/jsp2.png";
+import slide2 from "../assets/jsp3.png";
+import slide3 from "../assets/jsp1.png";
+import slide4 from "../assets/packshot-mockup.png";
+import slide5 from "../assets/collage-demultiplication.png";
+import slide6 from "../assets/domestic-banana.png";
 import slide7 from "../assets/barbie-detournement.png";
 import slide8 from "../assets/vitesse.png";
-import slide9 from "../assets/collage-demultiplication.png";
+import slide9 from "../assets/rubrique-love.png";
 import { Link } from "react-router-dom";
 
 export default function App() {
@@ -79,7 +79,7 @@ export default function App() {
             alt=""
             className="carousel-decor carousel-decor--left"
             aria-hidden="true"
-            style={{ '--decor-offset-x': '2%', '--decor-offset-y': '-30%', zIndex: 5 }}
+            style={{ '--decor-offset-x': '2%', '--decor-offset-y': '-30%', zIndex: 5, maxHeight: '100px', width: 'auto' }}
           />
 
           {/* carrousel (doit rester au-dessus du décor gauche) */}
@@ -93,7 +93,7 @@ export default function App() {
             alt=""
             className="carousel-decor carousel-decor--right"
             aria-hidden="true"
-            style={{ '--decor-offset-x': '-5%', '--decor-offset-y': '-33%', zIndex: 20 }}
+            style={{ '--decor-offset-x': '-5%', '--decor-offset-y': '-33%', zIndex: 20, maxHeight: '100px', width: 'auto' }}
           />
         </div>
       </section>

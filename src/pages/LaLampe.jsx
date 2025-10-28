@@ -52,7 +52,7 @@ export default function LaLampePage() {
                 <img src={CharteGraphique} alt="Charte Graphique" className="project-image" />
             </section>
             <section className="project-nav">
-                <Link to="/galerie" className="shiny-link">
+                <Link to="/galerie/dessin-digital" className="shiny-link">
                     <ShinyText
                         text="Projet précédent"
                         disabled={false}
@@ -60,7 +60,7 @@ export default function LaLampePage() {
                         className='custom-class'
                     />
                 </Link>
-                <Link to="/galerie" className="shiny-link">
+                <Link to="/galerie/les-arts-monnet" className="shiny-link">
                     <ShinyText
                         text="Projet suivant"
                         disabled={false}

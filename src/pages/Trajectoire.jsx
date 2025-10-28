@@ -64,7 +64,7 @@ export default function TrajectoirePage() {
                 </p>
             </section>
             <section className="project-nav">
-                <Link to="/galerie" className="shiny-link">
+                <Link to="/galerie/book-covers" className="shiny-link">
                     <ShinyText
                         text="Projet précédent"
                         disabled={false}
@@ -72,7 +72,7 @@ export default function TrajectoirePage() {
                         className='custom-class'
                     />
                 </Link>
-                <Link to="/galerie" className="shiny-link">
+                <Link to="/galerie/packshot" className="shiny-link">
                     <ShinyText
                         text="Projet suivant"
                         disabled={false}

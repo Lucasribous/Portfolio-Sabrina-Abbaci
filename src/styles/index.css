@@ -7,7 +7,12 @@
    - Priorité : "Helvetica Neue" / Helvetica
    - Substitution : Arial, puis fontes système modernes
    ============================ */
-:root {
+.app-frame {
+  height: 844px;
+  width: 390px;
+}
+
+   :root {
   --rose: #f19fd3;
 
   /* Contrôles du carousel (modifiable) */
@@ -151,4 +156,15 @@ body {
 .contact-info a {
   margin-top: 1.5rem;
   margin-bottom: -0.2rem;
+}
+
+/* Desktop background */
+@media (min-width: 641px) {
+  body {
+    background-image: url("../assets/background-pc.png");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
 }

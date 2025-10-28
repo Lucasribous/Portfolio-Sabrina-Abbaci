@@ -65,7 +65,7 @@ export default function VingtAnsPage() {
                       />
             </section>
             <section className="project-nav">
-                <Link to="/galerie" className="shiny-link">
+                <Link to="/galerie/packshot" className="shiny-link">
                     <ShinyText
                         text="Projet précédent"
                         disabled={false}
@@ -73,7 +73,7 @@ export default function VingtAnsPage() {
                         className='custom-class'
                     />
                 </Link>
-                <Link to="/galerie" className="shiny-link">
+                <Link to="/galerie/dessin-digital" className="shiny-link">
                     <ShinyText
                         text="Projet suivant"
                         disabled={false}

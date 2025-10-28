@@ -62,7 +62,7 @@ export default function BookCoversPage() {
                 <img src={HarleyrsInHawai} alt="Harleys in Hawaii" className="project-image-3" />
             </section>
             <section className="project-nav">
-                <Link to="/galerie" className="shiny-link">
+                <Link to="/galerie/diosa" className="shiny-link">
                     <ShinyText
                         text="Projet précédent"
                         disabled={false}
@@ -70,7 +70,7 @@ export default function BookCoversPage() {
                         className='custom-class'
                     />
                 </Link>
-                <Link to="/galerie" className="shiny-link">
+                <Link to="/galerie/trajectoire" className="shiny-link">
                     <ShinyText
                         text="Projet suivant"
                         disabled={false}

@@ -59,7 +59,7 @@ export default function DiosaPage() {
                 <img src={KaliUchis1} alt="Kali Uchis 1" className="project-image-2" />
             </section>
             <section className="project-nav">
-                <Link to="/galerie" className="shiny-link">
+                <Link to="/galerie/les-arts-monnet" className="shiny-link">
                     <ShinyText
                         text="Projet précédent"
                         disabled={false}
@@ -67,7 +67,7 @@ export default function DiosaPage() {
                         className='custom-class'
                     />
                 </Link>
-                <Link to="/galerie" className="shiny-link">
+                <Link to="/galerie/book-covers" className="shiny-link">
                     <ShinyText
                         text="Projet suivant"
                         disabled={false}

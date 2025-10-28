@@ -2,17 +2,28 @@ import React, { useEffect, useRef, useState } from "react";
 // correction : CSS centralisé sous src/styles/components
 import "./Carousel.css";
 
-export default function Carousel({
-  items = [], // expect: [{ title, image }] where image is a public path (e.g. "/assets/slide1.png")
-  baseWidth = 400,
-  autoplay = false, // kept but default false
-  autoplayDelay = 3000,
-  pauseOnHover = true,
-  loop = false,
-}) {
+export default function Carousel(props) {
+  // normalize props: accept either `items` (used in Home.jsx) or `slides`
+  const items = props.items || props.slides || [];
+  const baseWidth = props.baseWidth ?? 600;
   const viewportRef = useRef(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [aspectRatio, setAspectRatio] = useState(null);
+  // ref flags to make dot-click scrolling robust
+  const isAutoScrollingRef = useRef(false);
+  const autoScrollTimerRef = useRef(null);
+
+  // debug rapide : voir si le composant monte et combien de slides
+  console.log("Carousel render", { itemsLength: items.length, currentIndex });
+
+  // fallback lisible si slides manquent ou erreur de données
+  if (!items || items.length === 0) {
+    return (
+      <div className="carousel-empty" style={{ padding: 24, textAlign: "center" }}>
+        Aucune slide disponible
+      </div>
+    );
+  }
 
   // compute aspect ratio from first image (use PNGs as requested)
   useEffect(() => {
@@ -24,6 +35,7 @@ export default function Carousel({
     img.onload = () => {
       if (canceled) return;
       if (img.naturalWidth && img.naturalHeight) {
+        // store numeric ratio like 16/9 or "800 / 600" which CSS accepts as aspect-ratio
         setAspectRatio(`${img.naturalWidth} / ${img.naturalHeight}`);
       }
     };
@@ -38,9 +50,7 @@ export default function Carousel({
 
   const getSlideWidth = () => {
     const vp = viewportRef.current;
-    if (!vp) return 1;
-    const slide = vp.querySelector(".carousel-item");
-    return slide ? slide.getBoundingClientRect().width : vp.clientWidth || 1;
+    return vp ? vp.clientWidth : 0;
   };
 
   // sync currentIndex while user scrolls
@@ -52,7 +62,9 @@ export default function Carousel({
       if (raf) cancelAnimationFrame(raf);
       raf = requestAnimationFrame(() => {
         const slideW = getSlideWidth();
-        const idx = Math.round(vp.scrollLeft / slideW);
+        const idx = slideW ? Math.round(vp.scrollLeft / slideW) : 0;
+        // ignore scroll events while we intentionally auto-scroll from a dot click
+        if (isAutoScrollingRef.current) return;
         setCurrentIndex((prev) => (prev !== idx ? idx : prev));
       });
     };
@@ -69,25 +81,126 @@ export default function Carousel({
     };
   }, [currentIndex]);
 
-  const scrollToIndex = (idx) => {
+  // scroll helper used by dot clicks
+  const scrollToIndex = (index) => {
     const vp = viewportRef.current;
     if (!vp) return;
     const slideW = getSlideWidth();
-    let left = idx * slideW;
-    const maxLeft = Math.max(0, vp.scrollWidth - vp.clientWidth);
-    if (left > maxLeft) left = maxLeft;
-    if (left < 0) left = 0;
-    vp.scrollTo({ left, behavior: "smooth" });
-    setCurrentIndex(idx);
+    const targetLeft = Math.round(index * slideW);
+
+    // cancel previous auto-scroll timers
+    if (autoScrollTimerRef.current) {
+      clearTimeout(autoScrollTimerRef.current);
+      autoScrollTimerRef.current = null;
+    }
+
+    // mark auto-scrolling so onScroll handler doesn't fight it
+    isAutoScrollingRef.current = true;
+    // use smooth scroll; fallback to instant if browser doesn't support
+    try {
+      vp.scrollTo({ left: targetLeft, behavior: "smooth" });
+    } catch (err) {
+      vp.scrollLeft = targetLeft;
+    }
+
+    // after animation expected duration, clear flag and ensure index sync
+    autoScrollTimerRef.current = setTimeout(() => {
+      isAutoScrollingRef.current = false;
+      setCurrentIndex(index);
+      autoScrollTimerRef.current = null;
+    }, 520); // 520ms is a safe duration for smooth scroll; adjust if needed
   };
 
-  // fallback items if none provided
+  // ensure cleanup of timer if component unmounts
+  useEffect(() => {
+    return () => {
+      if (autoScrollTimerRef.current) {
+        clearTimeout(autoScrollTimerRef.current);
+        autoScrollTimerRef.current = null;
+      }
+    };
+  }, []);
+
+  // allow mouse wheel to scroll carousel horizontally on desktop
+  useEffect(() => {
+    const vp = viewportRef.current;
+    if (!vp) return;
+    const onWheel = (e) => {
+      // if mostly vertical wheel, translate to horizontal scroll
+      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+        e.preventDefault();
+        vp.scrollBy({ left: e.deltaY, behavior: "smooth" });
+      }
+    };
+    vp.addEventListener("wheel", onWheel, { passive: false });
+    return () => vp.removeEventListener("wheel", onWheel);
+  }, []);
+
+  // enable drag-to-scroll (mouse and touch) for the carousel
+  useEffect(() => {
+    const vp = viewportRef.current;
+    if (!vp) return;
+    let isDown = false;
+    let startX = 0;
+    let scrollLeft = 0;
+
+    const onPointerDown = (e) => {
+      isDown = true;
+      vp.classList.add("is-dragging");
+      startX = e.pageX ?? (e.touches && e.touches[0].pageX) ?? 0;
+      scrollLeft = vp.scrollLeft;
+      // prevent text/image selection while dragging
+      e.preventDefault();
+    };
+
+    const onPointerMove = (e) => {
+      if (!isDown) return;
+      const x = e.pageX ?? (e.touches && e.touches[0].pageX) ?? 0;
+      const walk = x - startX;
+      vp.scrollLeft = scrollLeft - walk;
+    };
+
+    const stopDrag = () => {
+      isDown = false;
+      vp.classList.remove("is-dragging");
+    };
+
+    // pointer events (preferred)
+    vp.addEventListener("pointerdown", onPointerDown, { passive: false });
+    window.addEventListener("pointermove", onPointerMove, { passive: false });
+    window.addEventListener("pointerup", stopDrag);
+    window.addEventListener("pointerleave", stopDrag);
+
+    // fallback for older touch only browsers
+    vp.addEventListener("touchstart", onPointerDown, { passive: false });
+    vp.addEventListener("touchmove", onPointerMove, { passive: false });
+    vp.addEventListener("touchend", stopDrag);
+
+    return () => {
+      vp.removeEventListener("pointerdown", onPointerDown);
+      window.removeEventListener("pointermove", onPointerMove);
+      window.removeEventListener("pointerup", stopDrag);
+      window.removeEventListener("pointerleave", stopDrag);
+      vp.removeEventListener("touchstart", onPointerDown);
+      vp.removeEventListener("touchmove", onPointerMove);
+      vp.removeEventListener("touchend", stopDrag);
+    };
+  }, []);
+
+  // ensure slides variable used later is the normalized items array
   const slides = items && items.length ? items : [{ image: "/public/assets/placeholder.png", title: "Slide 1" }];
 
   return (
     <div
       className="carousel-wrapper"
-      style={{ width: "75%", margin: "0 auto", maxWidth: "1100px", position: "relative" }}
+      style={{
+        width: "calc(75% - 1px)",      // réduit la largeur de 1px
+        paddingLeft: "1px",            // compense sur la gauche (déplace le contenu de 1px)
+        margin: "0 auto",
+        maxWidth: "1100px",
+        position: "relative",
+        boxSizing: "border-box"
+      }}
       aria-roledescription="carousel"
     >
       <div

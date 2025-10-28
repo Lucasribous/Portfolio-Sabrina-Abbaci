@@ -85,7 +85,7 @@ export default function LesArtsMonnet() {
                 </p>
             </section>
             <section className="project-nav">
-                <Link to="/galerie" className="shiny-link">
+                <Link to="/galerie/la-lampe" className="shiny-link">
                     <ShinyText
                         text="Projet précédent"
                         disabled={false}
@@ -93,7 +93,7 @@ export default function LesArtsMonnet() {
                         className='custom-class'
                     />
                 </Link>
-                <Link to="/galerie" className="shiny-link">
+                <Link to="/galerie/diosa" className="shiny-link">
                     <ShinyText
                         text="Projet suivant"
                         disabled={false}

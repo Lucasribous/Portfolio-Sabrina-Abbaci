@@ -45,16 +45,3 @@
   --three-font-size: 1.25rem;
   --three-max-width: 800px;
 }
-
-/* Responsive typographique (mobile-first) */
-@media (min-width: 640px) {
-  .three-spans__paragraph {
-    font-size: calc(var(--three-font-size, 1rem) * 1.1);
-  }
-}
-
-@media (min-width: 1024px) {
-  .three-spans__paragraph {
-    font-size: calc(var(--three-font-size, 1rem) * 1.2);
-  }
-}

@@ -5,6 +5,8 @@ import './styles/index.css';  // important
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <App />
+    <div className="app-frame">
+      <App />
+    </div>
   </React.StrictMode>
 )

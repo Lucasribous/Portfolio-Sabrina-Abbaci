@@ -2,7 +2,7 @@
   width: 100%;
   position: relative;
   margin-top: 0.5rem;
-  margin-bottom: 3rem;
+  margin-bottom: 1.5rem;
   /* s'assurer que le Masonry reste sous l'ASCII header */
   z-index: 1;
 }

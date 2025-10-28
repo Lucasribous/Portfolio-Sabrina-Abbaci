@@ -78,7 +78,7 @@ export default function PackshotPage() {
                 </figure>
             </section>
             <section className="project-nav">
-                <Link to="/galerie" className="shiny-link">
+                <Link to="/galerie/trajectoire" className="shiny-link">
                     <ShinyText
                         text="Projet précédent"
                         disabled={false}
@@ -86,7 +86,7 @@ export default function PackshotPage() {
                         className='custom-class'
                     />
                 </Link>
-                <Link to="/galerie" className="shiny-link">
+                <Link to="/galerie/20-ans" className="shiny-link">
                     <ShinyText
                         text="Projet suivant"
                         disabled={false}

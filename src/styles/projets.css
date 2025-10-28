@@ -29,7 +29,6 @@
 }
 
 .project-subtitle {
-  --la-subtitle-size: 1rem; /* desktop default */
   font-size: var(--la-subtitle-size);
   font-weight: 500; /* équivalent de font-medium */
   text-align: center;
@@ -264,4 +263,71 @@
 
 .ThreeSpans {
   margin-bottom: 0;
+}
+
+.sabrina-section {
+  display: flex;
+  justify-content: center; /* centre horizontalement */
+  align-items: center;     /* centre verticalement si la section a une hauteur */
+  text-align: center;
+  width: 100%;
+  margin-bottom: 1.5rem;
+}
+
+.cv-image {
+  display: block;
+  margin: 0 auto;        /* fallback centrage */
+  width: min(640px, 90%); /* ajuste la largeur max visuelle */
+  height: auto;
+  justify-content: center;
+  align-items: center;
+  border-radius: 3px;
+}
+.cv-download-section {
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.sabrina-contact {
+  margin-bottom: 3rem;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #f19fd3;
+  width: 100%;
+}
+
+.lucasribous-credit-section {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+/* Force le rendu "mobile" sur grand écran : centre et limite la largeur */
+@media (min-width: 900px) {
+  /* cible le conteneur racine React */
+  #root {
+    max-width: 420px;   /* largeur utilisée comme "mobile" */
+    margin: 0 auto;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.08); /* optionnel pour voir la bordure */
+    background: var(--page-bg, transparent);
+  }
+
+  /* évite que certains éléments en full‑width cassent le centrage */
+  #root > * {
+    box-sizing: border-box;
+  }
+}
+
+/* force une taille de typo stable pour SplitText (modifiable via --split-text-size) */
+.split-parent {
+  font-size: var(--split-text-size, 3rem) !important; /* change la valeur par défaut ici */
+  line-height: 1;
+  white-space: normal;
+}
+
+/* Forcer la taille du sous-titre dans la page LesArtsMonnet */
+.les-arts-monnet .project-subtitle,
+.les-arts-monnet .project-subtitle * {
+  font-size: 1.2rem !important;
 }

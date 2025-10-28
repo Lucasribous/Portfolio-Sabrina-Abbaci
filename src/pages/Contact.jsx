@@ -7,7 +7,8 @@ import { useNavigate } from 'react-router-dom';
 
 import Back from "../assets/back.png";
 import Lucas from "../assets/Lucas.png";
-import Lucasribous from "../assets/Lucasribous.png";
+import CV from "../assets/cv.png";
+import CVPDF from "../assets/cv.pdf";
 import Gif from "../assets/Lucasribous.gif";
 
 export default function ContactPage() {
@@ -46,15 +47,52 @@ export default function ContactPage() {
                 />
             </section>
             <section className="sabrina-section">
-                <p className="credit-site">bla bla bla contact et tout ça...</p>
+                    <img src={CV} alt="CV" className="cv-image" /><br />
             </section>
-            <section
+            <section className="cv-download-section">
+              <a
+                  href={CVPDF}
+                  download="Sabrina_CV.pdf"
+                  className="shiny-link"
+                  rel="noopener noreferrer"
+              >
+                  <ShinyText
+                      text="Télécharger mon CV"
+                      disabled={false}
+                      speed={3}
+                      className='custom-class'
+                  />
+              </a>
+            </section>
+            <section className="sabrina-contact">
+                <p className="contact-info">
+                    Pour toute demande de collaboration ou d'information, n'hésitez pas à me contacter <br/>
+                    <a
+                  href="mailto:sabrinaabbc@gmail.com"
+                  className="shiny-link"
+                  onClick={(e) => {
+                          e.preventDefault();
+                          window.open('mailto:sabrinaabbc@gmail.com', '_blank', 'noopener');
+                        }}
+              >
+                  <ShinyText
+                      text="Contactez moi"
+                      disabled={false}
+                      speed={3}
+                      className='custom-class'
+                  />
+                    </a>
+                </p>
+            </section>
+            <hr></hr>
+            <section className="lucasribous-credit-section">
+            <div
               className="lucasribous-section"
               style={{
                 backgroundImage: `url(${Gif})`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat'
+                backgroundRepeat: 'no-repeat',
               }}
             >
                 <p className="credit-site">Développé et designé par Lucasribous</p>
@@ -84,13 +122,14 @@ export default function ContactPage() {
                         }}
                     >
                         <ShinyText
-                            text="contactez moi"
+                            text="Contactez moi"
                             disabled={false}
                             speed={3}
                             className='custom-class'
                         />
                     </a>
                 </p>
+            </div>
             </section>
         </main>
     );

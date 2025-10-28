@@ -29,6 +29,18 @@
   display: none;            /* Chrome, Safari, Opera */
 }
 
+.carousel-viewport {
+  cursor: grab;
+  touch-action: pan-y; /* allow vertical page scroll when not dragging horizontally */
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+.carousel-viewport.is-dragging {
+  cursor: grabbing;
+  user-select: none;
+}
+
 .carousel-item {
   flex: 0 0 100%;
   min-width: 100%;
@@ -41,13 +53,15 @@
   align-items: center;
   background: transparent;
   border-radius: 3px;
+  overflow: hidden; /* évite que l'image déborde aux coins arrondis */
 }
 
 .carousel-image {
   width: 100%;
   height: 100%;
   display: block;
-  object-fit: contain;
+  object-fit: cover; /* adapte l'image à la boîte sans déformer */
+  border-radius: inherit; /* hérite de la valeur du parent */
   pointer-events: none;
   user-select: none;
   border-radius: 3px;

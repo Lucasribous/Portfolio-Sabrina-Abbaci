@@ -16,13 +16,13 @@ import LaLampe from "../assets/la-lampe.png";
 
 const items = [
   { id: "1", img: BookCovers, url: "/galerie/book-covers" },
-  { id: "2", img: VingtAns, url: "/galerie/20-ans" },
-  { id: "3", img: Trajectoire, url: "/galerie/trajectoire" },
-  { id: "4", img: DessinDigital, url: "/galerie/dessin-digital" },
-  { id: "5", img: Packshot, url: "/galerie/packshot" },
-  { id: "6", img: LesArtsMonnet, url: "/galerie/les-arts-monnet" },
-  { id: "7", img: Diosa, url: "/galerie/diosa" },
-  { id: "8", img: LaLampe, url: "/galerie/la-lampe" },
+  { id: "2", img: Trajectoire, url: "/galerie/trajectoire" },
+  { id: "3", img: Packshot, url: "/galerie/packshot" },
+  { id: "4", img: VingtAns, url: "/galerie/20-ans" },
+  { id: "5", img: DessinDigital, url: "/galerie/dessin-digital" },
+  { id: "6", img: LaLampe, url: "/galerie/la-lampe" },
+  { id: "7", img: LesArtsMonnet, url: "/galerie/les-arts-monnet" },
+  { id: "8", img: Diosa, url: "/galerie/diosa" },
 ];
 
 export default function Gallery() {
