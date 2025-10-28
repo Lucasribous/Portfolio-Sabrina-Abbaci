@@ -10,6 +10,7 @@
 .app-frame {
   height: 844px;
   width: 390px;
+  margin: 0 auto;
 }
 
    :root {
