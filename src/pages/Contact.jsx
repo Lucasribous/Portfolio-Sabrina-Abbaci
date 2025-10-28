@@ -88,7 +88,7 @@ export default function ContactPage() {
             <div
               className="lucasribous-section"
               style={{
-                backgroundImage: `url('/assets/Lucasribous.gif')`,
+                backgroundImage: `url('/assets/lucasribous.gif')`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
