@@ -9,7 +9,6 @@ import Back from "../assets/back.png";
 import Lucas from "../assets/Lucas.png";
 import CV from "../assets/cv.png";
 import CVPDF from "../assets/cv.pdf";
-import Gif from "../assets/Lucasribous.gif";
 
 export default function ContactPage() {
     // handler required par <SplitText />. Défini ici pour éviter une ReferenceError qui empêche le rendu.
@@ -89,7 +88,7 @@ export default function ContactPage() {
             <div
               className="lucasribous-section"
               style={{
-                backgroundImage: `url(${Gif})`,
+                backgroundImage: `url('/assets/Lucasribous.gif')`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
