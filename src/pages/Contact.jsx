@@ -63,7 +63,7 @@ export default function ContactPage() {
                   <p className="lucas-description">Développeur web passionné par la création d'expériences utilisateur uniques.</p>
                 </div>
                 <p className="contact-info">
-                    Pour toute demande de collaboration ou d'information, n'hésitez pas à me contacter
+                    Pour toute demande de collaboration ou d'information, n'hésitez pas à me contacter <br/>
                     <a
                         href="mailto:lucasribous@gmail.com"
                         className="shiny-link"
