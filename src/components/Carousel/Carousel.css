@@ -8,71 +8,64 @@
 
 .carousel-viewport {
   display: flex;
-  gap: 1rem;                        /* espace entre les slides */
-  overflow-x: auto;                 /* scroll horizontal */
+  gap: 1rem;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  width: 100%;
+  overflow-x: auto;
   overflow-y: hidden;
-  scroll-snap-type: x mandatory;    /* snap aux slides */
-  -webkit-overflow-scrolling: touch;/* inertial scrolling iOS */
-  scroll-behavior: smooth;          /* smooth pour scrollBy / scrollTo */
-  touch-action: pan-y;              /* laisse la page scroller verticalement, permet swipe horizontal */
-  -ms-overflow-style: none;         /* hide old IE scrollbar if desired */
-  will-change: scroll-position;     /* hint pour perf */
-  user-select: none;                /* évite sélection lors du drag avec la souris */
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  /* allow browser to handle touch gestures (don't block horizontal swipe) */
+  touch-action: auto;
+  will-change: scroll-position;
+  user-select: none;
 }
 
-/* chaque item doit s'aligner sur le snap (si nécessaire) */
+/* ensure items don't stretch images */
 .carousel-viewport .carousel-item {
   scroll-snap-align: start;
-  flex: 0 0 auto;  /* empêche les slides de s'étirer */
+  flex: 0 0 auto;
+  height: auto; /* do not force item height */
 }
 
-/* scrollbar stylée visible sur desktop */
-.carousel-viewport::-webkit-scrollbar {
-  height: 10px;
+/* do NOT force image sizes here; keep natural / existing CSS behavior */
+/* only ensure rounded corners if wanted (keeps original sizing) */
+.carousel-item {
+  border-radius: 3px;
+  overflow: hidden;
 }
-.carousel-viewport::-webkit-scrollbar-track {
-  background: transparent;
+.carousel-image {
+  display: block;
+  width: 100%;
+  height: auto;        /* keep aspect ratio; do not force height */
+  object-fit: cover;
 }
-.carousel-viewport::-webkit-scrollbar-thumb {
-  background: rgba(241,159,211,0.9); /* rose */
-  border-radius: 8px;
-  border: 2px solid transparent;
-  background-clip: padding-box;
+
+/* show grab cursor only for pointer: fine (desktop) */
+@media (pointer: fine) {
+  .carousel-viewport { cursor: grab; }
+  .carousel-viewport.is-dragging { cursor: grabbing; }
 }
+
+/* scrollbar styling for desktop for discoverability */
+@media (pointer: fine) {
+  .carousel-viewport::-webkit-scrollbar { height: 10px; }
+  .carousel-viewport::-webkit-scrollbar-track { background: transparent; }
+  .carousel-viewport::-webkit-scrollbar-thumb {
+    background: rgba(241,159,211,0.9);
+    border-radius: 8px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+  .carousel-viewport { scrollbar-width: thin; scrollbar-color: rgba(241,159,211,0.9) transparent; }
+}
+
+/* minimal mobile tweak: hide native scrollbar if preferred (won't affect touch) */
 @media (max-width: 640px) {
-  /* sur mobile on peut masquer la barre si on préfère */
   .carousel-viewport::-webkit-scrollbar { display: none; height: 0; }
   .carousel-viewport { scrollbar-width: none; }
-}
-
-/* curseur pour desktop drag */
-.carousel-viewport { cursor: grab; }
-.carousel-viewport.is-dragging { cursor: grabbing; }
-
-.carousel-item {
-  flex: 0 0 100%;
-  min-width: 100%;
-  box-sizing: border-box;
-  position: relative;
-  scroll-snap-align: center;
-  scroll-snap-stop: always;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: transparent;
-  border-radius: 3px;
-  overflow: hidden; /* évite que l'image déborde aux coins arrondis */
-}
-
-.carousel-image {
-  width: 100%;
-  height: 100%;
-  display: block;
-  object-fit: cover; /* adapte l'image à la boîte sans déformer */
-  border-radius: inherit; /* hérite de la valeur du parent */
-  pointer-events: none;
-  user-select: none;
-  border-radius: 3px;
 }
 
 .carousel-indicators {

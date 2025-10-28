@@ -125,65 +125,65 @@ export default function Carousel(props) {
   useEffect(() => {
     const vp = viewportRef.current;
     if (!vp) return;
-    const onWheel = (e) => {
-      // if mostly vertical wheel, translate to horizontal scroll
-      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
-        e.preventDefault();
-        vp.scrollBy({ left: e.deltaY, behavior: "smooth" });
-      }
-    };
-    vp.addEventListener("wheel", onWheel, { passive: false });
-    return () => vp.removeEventListener("wheel", onWheel);
-  }, []);
 
-  // enable drag-to-scroll (mouse and touch) for the carousel
+    // wheel => horizontal scroll, only on devices with a "fine" pointer (mouse)
+    const mqFine = window.matchMedia && window.matchMedia('(pointer: fine)').matches;
+    if (mqFine) {
+      const onWheel = (e) => {
+        // prefer horizontal if user scrolls mostly vertically
+        if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+          e.preventDefault();
+          // use immediate scroll to keep snappy feel on desktop
+          vp.scrollBy({ left: e.deltaY, behavior: 'auto' });
+        }
+      };
+      vp.addEventListener('wheel', onWheel, { passive: false });
+      return () => vp.removeEventListener('wheel', onWheel);
+    }
+  }, []);
+  
+  // mouse/pen drag-to-scroll (do NOT handle touch here)
   useEffect(() => {
     const vp = viewportRef.current;
     if (!vp) return;
-    // Implementation note:
-    // - On mobile we prefer native touch scrolling (don't preventDefault on touchstart),
-    //   so we only intercept pointer events coming from a mouse to provide click-drag.
-    // - Keep touch-action: pan-y in CSS so vertical page scroll still works and horizontal
-    //   scroll is available for user gestures.
-    let isDown = false;
+
+    let isDragging = false;
     let startX = 0;
-    let scrollLeft = 0;
+    let startScroll = 0;
 
     const onPointerDown = (e) => {
-      // pointerType might be "mouse", "pen", or "touch"
-      // Only preventDefault and start a JS drag for mouse/pen — let touch use native scroll
-      if (e.pointerType === "mouse" || e.pointerType === "pen") {
-        isDown = true;
-        vp.classList.add("is-dragging");
+      // only start JS drag for mouse/pen (don't interfere with touch)
+      if (e.pointerType === 'mouse' || e.pointerType === 'pen') {
+        isDragging = true;
+        vp.classList.add('is-dragging');
         startX = e.pageX;
-        scrollLeft = vp.scrollLeft;
+        startScroll = vp.scrollLeft;
         e.preventDefault();
       }
     };
 
     const onPointerMove = (e) => {
-      if (!isDown) return;
-      const x = e.pageX;
-      const walk = x - startX;
-      vp.scrollLeft = scrollLeft - walk;
+      if (!isDragging) return;
+      const dx = e.pageX - startX;
+      vp.scrollLeft = startScroll - dx;
     };
 
-    const stopDrag = () => {
-      if (!isDown) return;
-      isDown = false;
-      vp.classList.remove("is-dragging");
+    const endDrag = () => {
+      if (!isDragging) return;
+      isDragging = false;
+      vp.classList.remove('is-dragging');
     };
 
-    vp.addEventListener("pointerdown", onPointerDown, { passive: false });
-    window.addEventListener("pointermove", onPointerMove, { passive: false });
-    window.addEventListener("pointerup", stopDrag);
-    window.addEventListener("pointerleave", stopDrag);
+    vp.addEventListener('pointerdown', onPointerDown, { passive: false });
+    window.addEventListener('pointermove', onPointerMove, { passive: false });
+    window.addEventListener('pointerup', endDrag);
+    window.addEventListener('pointerleave', endDrag);
 
     return () => {
-      vp.removeEventListener("pointerdown", onPointerDown);
-      window.removeEventListener("pointermove", onPointerMove);
-      window.removeEventListener("pointerup", stopDrag);
-      window.removeEventListener("pointerleave", stopDrag);
+      vp.removeEventListener('pointerdown', onPointerDown);
+      window.removeEventListener('pointermove', onPointerMove);
+      window.removeEventListener('pointerup', endDrag);
+      window.removeEventListener('pointerleave', endDrag);
     };
   }, []);
 
