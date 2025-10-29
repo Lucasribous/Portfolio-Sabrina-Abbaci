@@ -14,7 +14,8 @@
   overflow-x: auto;
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
-  touch-action: pan-x;
+  /* Allow browser vertical scrolling by default, JS will handle horizontal drags */
+  touch-action: pan-y;
   overscroll-behavior-x: contain;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;

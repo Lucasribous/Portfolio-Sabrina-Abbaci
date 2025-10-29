@@ -5,6 +5,8 @@
   margin-bottom: 1.5rem;
   /* s'assurer que le Masonry reste sous l'ASCII header */
   z-index: 1;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* each item is absolutely positioned by the component */
