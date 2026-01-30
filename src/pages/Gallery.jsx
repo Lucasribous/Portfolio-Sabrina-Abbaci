@@ -12,6 +12,8 @@ import Packshot from "../assets/packshot.png";
 import LesArtsMonnet from "../assets/les-arts-monnet.png";
 import Diosa from "../assets/diosa.png";
 import LaLampe from "../assets/la-lampe.png";
+import SugaSuga from "../assets/suga-suga.png";
+import Threshold from "../assets/threshold.png";
 
 
 const items = [
@@ -23,6 +25,8 @@ const items = [
   { id: "6", img: LaLampe, url: "/galerie/la-lampe" },
   { id: "7", img: LesArtsMonnet, url: "/galerie/les-arts-monnet" },
   { id: "8", img: Diosa, url: "/galerie/diosa" },
+  { id: "9", img: SugaSuga, url: "/galerie/suga-suga" },
+  { id: "10", img: Threshold, url: "/galerie/threshold" },
 ];
 
 export default function Gallery() {
