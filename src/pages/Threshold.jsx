@@ -47,7 +47,7 @@ export default function ThresholdPage() {
                 />
             </section>
             <section className="project-image-section">
-                <img src={Threshol} alt="Threshold Mockup" className="project-image" />
+                <img src={Threshold} alt="Threshold Mockup" className="project-image" />
             </section>
             <section className="project-description">
                 <p className="text">
