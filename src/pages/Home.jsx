@@ -9,14 +9,14 @@ import ShinyText from '../components/ShinyText/ShinyText';
 import headerImg from "../assets/header.png";
 import leftDeco from "../assets/decor-left.png";
 import rightDeco from "../assets/decor-right.png";
-import slide1 from "../assets/jsp2.png";
+import slide1 from "../assets/domestic-banana.png";
 import slide2 from "../assets/jsp3.png";
-import slide3 from "../assets/jsp1.png";
-import slide4 from "../assets/packshot-mockup.png";
+import slide3 from "../assets/threshold-mockup.png";
+import slide4 from "../assets/trajectoire+calque.png";
 import slide5 from "../assets/collage-demultiplication.png";
-import slide6 from "../assets/domestic-banana.png";
+import slide6 from "../assets/packshot-mockup.png";
 import slide7 from "../assets/barbie-detournement.png";
-import slide8 from "../assets/vitesse.png";
+import slide8 from "../assets/danielle.png";
 import slide9 from "../assets/rubrique-love.png";
 import { Link } from "react-router-dom";
 
@@ -25,15 +25,15 @@ export default function App() {
 
   // Liste des images du carrousel
   const carouselImages = [
-    { title: "Domestic Banana", image: slide1 },
-    { title: "Les Paradis Artificiels", image: slide2 },
-    { title: "Dessin Slay", image: slide6 },
-    { title: "Rubrique Love", image: slide3 },
-    { title: "Go Homme Or Go Back", image: slide5 },
-    { title: "Dessin Frutiger", image: slide4 },
-    { title: "Barbie détournement", image: slide7 },
-    { title: "Dessin Vitesse", image: slide8 },
-    { title: "Collage Démultiplication", image: slide9 },
+    { title: "slide1", image: slide1 },
+    { title: "slide2", image: slide2 },
+    { title: "slide3", image: slide3 },
+    { title: "slide4", image: slide4 },
+    { title: "slide5", image: slide5 },
+    { title: "slide6", image: slide6 },
+    { title: "slide7", image: slide7 },
+    { title: "slide8", image: slide8 },
+    { title: "slide9", image: slide9 },
   ];
 
   const cssVars = {

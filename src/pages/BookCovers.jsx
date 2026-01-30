@@ -11,6 +11,8 @@ import DomesticBanana from "../assets/domestic-banana.png";
 import RubriqueLove from "../assets/rubrique-love.png";
 import ParadisArtificiels from "../assets/les-paradis-artificiel.png";
 import HarleyrsInHawai from "../assets/harleys-in-hawaii.png";
+import Danielle from "../assets/danielle.png";
+import HowSweet from "../assets/how-sweet.png";
 
 export default function BookCoversPage() {
     // handler required par <SplitText />. Défini ici pour éviter une ReferenceError qui empêche le rendu.
@@ -60,6 +62,10 @@ export default function BookCoversPage() {
                 <img src={RubriqueLove} alt="Rubrique Love" className="project-image-1" />
                 <img src={ParadisArtificiels} alt="Les paradis artificiels" className="project-image-2" />
                 <img src={HarleyrsInHawai} alt="Harleys in Hawaii" className="project-image-3" />
+            </section>
+            <section className="three-images-no-caption">
+                <img src={Danielle} alt="Danielle" className="project-image-1" />
+                <img src={HowSweet} alt="How Sweet" className="project-image-2" />
             </section>
             <section className="project-nav">
                 <Link to="/galerie/diosa" className="shiny-link">
