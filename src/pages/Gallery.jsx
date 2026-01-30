@@ -21,12 +21,12 @@ const items = [
   { id: "2", img: Trajectoire, url: "/galerie/trajectoire" },
   { id: "3", img: Packshot, url: "/galerie/packshot" },
   { id: "4", img: VingtAns, url: "/galerie/20-ans" },
-  { id: "10", img: DessinDigital, url: "/galerie/dessin-digital" },
-  { id: "6", img: LaLampe, url: "/galerie/la-lampe" },
-  { id: "7", img: LesArtsMonnet, url: "/galerie/les-arts-monnet" },
-  { id: "8", img: Diosa, url: "/galerie/diosa" },
-  { id: "9", img: SugaSuga, url: "/galerie/suga-suga" },
   { id: "5", img: Threshold, url: "/galerie/threshold" },
+  { id: "6", img: LesArtsMonnet, url: "/galerie/les-arts-monnet" },
+  { id: "7", img: SugaSuga, url: "/galerie/suga-suga" },
+  { id: "8", img: DessinDigital, url: "/galerie/dessin-digital" },
+  { id: "9", img: LaLampe, url: "/galerie/la-lampe" },
+  { id: "10", img: Diosa, url: "/galerie/diosa" },
 ];
 
 export default function Gallery() {
