@@ -58,7 +58,7 @@ export default function SugaSuga() {
             <section className="project-video">
                 <video
                   className="project-video-player"
-                  src="//sendvid.com/embed/5g8cnhob"
+                  src="https://videos2.sendvid.com/b0/30/hhcq6qrn.mp4"
                   poster={SugaSugaPoster}
                   controls
                   preload="none"
