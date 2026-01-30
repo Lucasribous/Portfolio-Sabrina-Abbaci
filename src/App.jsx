@@ -11,6 +11,8 @@ import LesArtsMonnet from "./pages/LesArtsMonnet";
 import Diosa from "./pages/Diosa";
 import LaLampe from "./pages/LaLampe";
 import Contact from "./pages/Contact";
+import Threshold from "./pages/Threshold";
+import SugaSuga from "./pages/SugaSuga";
 
 export default function App() {
   return (
@@ -25,6 +27,8 @@ export default function App() {
         <Route path="/galerie/packshot" element={<Packshot />} />
         <Route path="/galerie/les-arts-monnet" element={<LesArtsMonnet />} />
         <Route path="/galerie/diosa" element={<Diosa />} />
+        <Route path="/galerie/suga-suga" element={<SugaSuga />} />
+        <Route path="/galerie/threshold" element={<Threshold />} />
         <Route path="/galerie/la-lampe" element={<LaLampe />} />
         <Route path="/contact" element={<Contact />} />
       </Routes>
