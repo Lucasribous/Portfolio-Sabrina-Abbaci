@@ -77,7 +77,7 @@ export default function SugaSuga() {
             </section>
 
             <section className="project-nav">
-                <Link to="/galerie/la-lampe" className="shiny-link">
+                <Link to="/galerie/threshold" className="shiny-link">
                     <ShinyText
                         text="Projet précédent"
                         disabled={false}
@@ -85,7 +85,7 @@ export default function SugaSuga() {
                         className='custom-class'
                     />
                 </Link>
-                <Link to="/galerie/diosa" className="shiny-link">
+                <Link to="/galerie/les-arts-monnet" className="shiny-link">
                     <ShinyText
                         text="Projet suivant"
                         disabled={false}

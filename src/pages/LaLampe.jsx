@@ -60,7 +60,7 @@ export default function LaLampePage() {
                         className='custom-class'
                     />
                 </Link>
-                <Link to="/galerie/les-arts-monnet" className="shiny-link">
+                <Link to="/galerie/diosa" className="shiny-link">
                     <ShinyText
                         text="Projet suivant"
                         disabled={false}

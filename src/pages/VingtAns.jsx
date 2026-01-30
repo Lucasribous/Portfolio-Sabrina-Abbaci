@@ -73,7 +73,7 @@ export default function VingtAnsPage() {
                         className='custom-class'
                     />
                 </Link>
-                <Link to="/galerie/dessin-digital" className="shiny-link">
+                <Link to="/galerie/threshold" className="shiny-link">
                     <ShinyText
                         text="Projet suivant"
                         disabled={false}

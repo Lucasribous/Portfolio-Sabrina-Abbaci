@@ -67,7 +67,7 @@ export default function DessinDigitalPage() {
                 </p>
             </section>
             <section className="project-nav">
-                <Link to="/galerie/20-ans" className="shiny-link">
+                <Link to="/galerie/les-arts-monnet" className="shiny-link">
                     <ShinyText
                         text="Projet précédent"
                         disabled={false}
