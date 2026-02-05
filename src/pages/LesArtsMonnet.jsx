@@ -70,7 +70,7 @@ export default function LesArtsMonnet() {
             <section className="project-video">
                 <video
                   className="project-video-player"
-                  src="https://videos2.sendvid.com/9b/7e/5g8cnhob.mp4?validfrom=1769790687&validto=1769805087&rate=250k&ip=78.116.141.127&hash=Oa8kMbiYnPpOvukvHj2fsIYpM3A%3D"
+                  src="https://videos2.sendvid.com/9b/7e/5g8cnhob.mp4?validfrom=1770313448&validto=1770327848&rate=250k&ip=78.116.141.127&hash=nVDwqpkKIPWzTPFAX8IeeQvXSBk%3D"
                   poster={FestivalMonnetPoster}
                   controls
                   preload="none"
