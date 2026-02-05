@@ -19,7 +19,7 @@ export default function LaLampePage() {
     const navigate = useNavigate();
 
     return (
-        <main className="page-dessin-digital">
+        <main className="page-la-lampe">
             <header className="page-header">
                 <Link to="/galerie" className="GoBack-link">
                     <img
@@ -47,6 +47,17 @@ export default function LaLampePage() {
             </section>
             <section className="project-image-section">
                 <img src={LaLampe} alt="La Lampe" className="project-image" />
+            </section>
+            <section className="project-video">
+                            <video
+                              className="project-video-player"
+                              src="https://videos2.sendvid.com/e8/1b/zz25v4zz.mp4?validfrom=1770314487&validto=1770328887&rate=180k&ip=78.116.141.127&hash=pN8uaR%2Bri1SFokE%2FyzZWzATYF4w%3D"
+                              volume={0.50}
+                              poster={LaLampe}
+                              controls
+                              preload="none"
+                              playsInline                      
+                            ></video>
             </section>
             <section className="project-image-section">
                 <img src={CharteGraphique} alt="Charte Graphique" className="project-image" />
