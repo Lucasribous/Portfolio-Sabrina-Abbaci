@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import Back from "../assets/back.png";
 import Lucas from "../assets/Lucas.png";
 import CV from "../assets/cv.png";
-import CVPDF from "../assets/cv.pdf";
+import CVPDF from "../assets/cv2026.pdf";
 
 export default function ContactPage() {
     // handler required par <SplitText />. Défini ici pour éviter une ReferenceError qui empêche le rendu.
@@ -52,7 +52,7 @@ export default function ContactPage() {
             <section className="cv-download-section">
               <a
                   href={CVPDF}
-                  download="Sabrina_CV.pdf"
+                  download="Sabrina_CV_2026.pdf"
                   className="shiny-link"
                   rel="noopener noreferrer"
               >

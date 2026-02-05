@@ -67,7 +67,7 @@ export default function DiosaPage() {
                         className='custom-class'
                     />
                 </Link>
-                <Link to="/galerie/book-covers" className="shiny-link">
+                <Link to="/galerie/photoshoot" className="shiny-link">
                     <ShinyText
                         text="Projet suivant"
                         disabled={false}

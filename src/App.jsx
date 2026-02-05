@@ -13,6 +13,7 @@ import LaLampe from "./pages/LaLampe";
 import Contact from "./pages/Contact";
 import Threshold from "./pages/Threshold";
 import SugaSuga from "./pages/SugaSuga";
+import Photoshoot from "./pages/Photoshoot";
 
 export default function App() {
   return (
@@ -30,6 +31,7 @@ export default function App() {
         <Route path="/galerie/suga-suga" element={<SugaSuga />} />
         <Route path="/galerie/threshold" element={<Threshold />} />
         <Route path="/galerie/la-lampe" element={<LaLampe />} />
+        <Route path="/galerie/photoshoot" element={<Photoshoot />} />
         <Route path="/contact" element={<Contact />} />
       </Routes>
     </Router>

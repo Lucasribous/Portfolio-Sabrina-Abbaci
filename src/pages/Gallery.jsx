@@ -14,6 +14,7 @@ import Diosa from "../assets/diosa.png";
 import LaLampe from "../assets/la-lampe.png";
 import SugaSuga from "../assets/suga-suga.png";
 import Threshold from "../assets/threshold-mockup.png";
+import Photoshoot from "../assets/photoshoot1.png";
 
 
 const items = [
@@ -27,6 +28,7 @@ const items = [
   { id: "8", img: DessinDigital, url: "/galerie/dessin-digital" },
   { id: "9", img: LaLampe, url: "/galerie/la-lampe" },
   { id: "10", img: Diosa, url: "/galerie/diosa" },
+  { id: "11", img: Photoshoot, url: "/galerie/photoshoot" },
 ];
 
 export default function Gallery() {
