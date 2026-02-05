@@ -68,7 +68,7 @@ export default function BookCoversPage() {
                 <img src={HowSweet} alt="How Sweet" className="project-image-2" />
             </section>
             <section className="project-nav">
-                <Link to="/galerie/diosa" className="shiny-link">
+                <Link to="/galerie/photoshoot" className="shiny-link">
                     <ShinyText
                         text="Projet précédent"
                         disabled={false}
